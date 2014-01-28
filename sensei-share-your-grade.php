@@ -160,7 +160,7 @@ final class Sensei_Share_Your_Grade {
 			if ( 0 < count( $networks ) ) {
 				foreach ( $networks as $k => $v ) {
 					if ( '' != $v && 'method' != $v && function_exists( $v ) ) {
-						${$v}();
+						$v();
 					} else {
 						if ( 'method' == $v && method_exists( $this, 'render_' . $k . '_button' ) ) {
 							$this->{'render_' . $k . '_button'}( $message );
