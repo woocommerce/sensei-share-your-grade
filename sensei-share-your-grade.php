@@ -75,6 +75,14 @@ final class Sensei_Share_Your_Grade {
 	private $_course_data;
 
 	/**
+	 * Whether or not we've output the Facebook JavaScript SDK.
+	 * @var     boolean
+	 * @access  private
+	 * @since   1.0.0
+	 */
+	private $_has_output_fb_sdk;
+
+	/**
 	 * Constructor function.
 	 * @access  public
 	 * @since   1.0.0
@@ -83,6 +91,8 @@ final class Sensei_Share_Your_Grade {
 	public function __construct () {
 		$this->_token = 'sensei-share-your-grade';
 		$this->_version = '1.0.0';
+
+		$this->_has_output_fb_sdk = false;
 
 		register_activation_hook( __FILE__, array( $this, 'install' ) );
 
@@ -225,7 +235,46 @@ final class Sensei_Share_Your_Grade {
 	 * @return  string
 	 */
 	public function render_facebook_button ( $message ) {
-		// TODO
+		// Only output the Facebook JavaScript SDK once.
+		if ( false == $this->_has_output_fb_sdk ) {
+			echo '<div id="fb-root"></div>
+					<script>(function(d, s, id) {
+					  var js, fjs = d.getElementsByTagName(s)[0];
+					  if (d.getElementById(id)) return;
+					  js = d.createElement(s); js.id = id;
+					  js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=307306569286690";
+					  fjs.parentNode.insertBefore(js, fjs);
+					}(document, \'script\', \'facebook-jssdk\'));</script>' . "\n";
+			$this->_has_output_fb_sdk = true;
+		}
+
+		$defaults = array(
+			'href' => get_permalink( $this->_course_data['course_id'] ),
+			'type' => 'button_count'
+			);
+
+		$args = (array)apply_filters( 'sensei_share_your_grade_facebook_button_args', $args );
+		$args = wp_parse_args( $args, $defaults );
+
+		// Make sure we have args. Otherwise, don't output.
+		if ( 0 < count( $args ) ) {
+			// If an argument is not in the defaults, remove it.
+			foreach ( $args as $k => $v ) {
+				if ( ! in_array( $k, array_keys( $defaults ) ) ) {
+					unset( $args[$k] );
+				}
+			}
+
+			// Prepare the "data" attributes.
+			$atts = '';
+			foreach ( $args as $k => $v ) {
+				$atts .= ' data-' . $k . '="' . esc_attr( $v ) . '"';
+			}
+
+			$html = '<div class="fb-share-button"' . $atts . '></div>' . "\n";
+
+			echo $html;
+		}
 	} // End render_facebook_button()
 
 	/**
