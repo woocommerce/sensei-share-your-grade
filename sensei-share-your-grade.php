@@ -156,11 +156,42 @@ final class Sensei_Share_Your_Grade {
 		$message = $this->get_message();
 		if ( '' != $message ) {
 			echo '<div class="sensei-share-your-grade buttons">' . "\n";
-			
+			$networks = $this->_get_supported_networks();
+			if ( 0 < count( $networks ) ) {
+				foreach ( $networks as $k => $v ) {
+					if ( '' != $v && 'method' != $v && function_exists( $v ) ) {
+						${$v}();
+					} else {
+						if ( 'method' == $v && method_exists( $this, 'render_' . $k . '_button' ) ) {
+							$this->{'render_' . $k . '_button'}( $message );
+						}
+					}
+				}
+			}
 			echo '</div><!--/.sensei-share-your-grade buttons-->' . "\n";
 		}
 		do_action( 'sensei_share_your_grade_output_sharing_buttons' );
 	} // End output_sharing_buttons()
+
+	/**
+	 * Return a formatted Twitter sharing button.
+	 * @access  public
+	 * @since   1.0.0
+	 * @return  string
+	 */
+	public function render_twitter_button ( $message ) {
+		// TODO
+	} // End render_twitter_button()
+
+	/**
+	 * Return a formatted Facebook sharing button.
+	 * @access  public
+	 * @since   1.0.0
+	 * @return  string
+	 */
+	public function render_facebook_button ( $message ) {
+		// TODO
+	} // End render_facebook_button()
 
 	/**
 	 * Return a formatted message to be shared.
@@ -245,6 +276,16 @@ final class Sensei_Share_Your_Grade {
 
 		return $message;
 	} // End _format_message()
+
+	/**
+	 * Return a filtered array of supported networks. Users can specify a callback function for any custom sharing methods.
+	 * @access  private
+	 * @since   1.0.0
+	 * @return  string
+	 */
+	private function _get_supported_networks () {
+		return (array)apply_filters( 'sensei_share_your_grade_supported_networks', array( 'twitter' => 'method', 'facebook' => 'method' ) );
+	} // End _get_supported_networks()
 
 	/**
 	 * Set the data we'll be using for the current course.
