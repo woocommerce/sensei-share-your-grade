@@ -179,8 +179,43 @@ final class Sensei_Share_Your_Grade {
 	 * @since   1.0.0
 	 * @return  string
 	 */
-	public function render_twitter_button ( $message ) {
-		// TODO
+	public function render_twitter_button ( $message, $args = array() ) {
+		$defaults = array(
+			'url' => get_permalink( $this->_course_data['course_id'] ),
+			'via' => '',
+			'text' => $message,
+			'related' => '',
+			'count' => '',
+			'lang' => '',
+			'counturl' => get_permalink( $this->_course_data['course_id'] ),
+			'hashtags' => '',
+			'size' => '',
+			'dnt' => ''
+			);
+
+		$args = (array)apply_filters( 'sensei_share_your_grade_twitter_button_args', $args );
+		$args = wp_parse_args( $args, $defaults );
+
+		// Make sure we have args. Otherwise, don't output.
+		if ( 0 < count( $args ) ) {
+			// If an argument is not in the defaults, remove it.
+			foreach ( $args as $k => $v ) {
+				if ( ! in_array( $k, array_keys( $defaults ) ) ) {
+					unset( $args[$k] );
+				}
+			}
+
+			// Prepare the "data" attributes.
+			$atts = '';
+			foreach ( $args as $k => $v ) {
+				$atts .= ' data-' . $k . '="' . esc_attr( $v ) . '"';
+			}
+
+			$html = '<a href="https://twitter.com/share" class="twitter-share-button"' . $atts . '>' . __( 'Tweet your Grade', 'sensei-share-your-grade' ) . '</a>' . "\n";
+			$html .= '<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>' . "\n";
+
+			echo $html;
+		}
 	} // End render_twitter_button()
 
 	/**
