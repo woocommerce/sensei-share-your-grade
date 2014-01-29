@@ -1,0 +1,64 @@
+# Copyright (C) 2014 Sensei Share Your Grade
+# This file is distributed under the same license as the Sensei Share Your Grade package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Sensei Share Your Grade 1.0.0\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/sensei-share-your-grade\n"
+"POT-Creation-Date: 2014-01-29 07:28:10+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: sensei-share-your-grade.php:180
+msgid "Share your progress!"
+msgstr ""
+
+#: sensei-share-your-grade.php:181
+msgid "Go on, get social! Share your progress with your friends and family on social media. Here's a preview of the message they will see. %1$s"
+msgstr ""
+
+#: sensei-share-your-grade.php:252
+msgid "Tweet your Grade"
+msgstr ""
+
+#: sensei-share-your-grade.php:343
+msgid "I just %%STATUS%% %%COURSE_NAME%%, over at %%SITE_NAME%% with %%PERCENTAGE%%%! Take the course, today! %%COURSE_PERMALINK%%"
+msgstr ""
+
+#: sensei-share-your-grade.php:353
+msgid "Cheer me on as I work to pass the %%COURSE_NAME%% course, over at %%SITE_NAME%%! Take the course with me, today! %%COURSE_PERMALINK%%"
+msgstr ""
+
+#: sensei-share-your-grade.php:416
+msgid "passed"
+msgstr ""
+
+#: sensei-share-your-grade.php:418
+msgid "failed"
+msgstr ""
+
+#: sensei-share-your-grade.php:445 sensei-share-your-grade.php:454
+msgid "Cheatin&#8217; huh?"
+msgstr ""
+#. Plugin Name of the plugin/theme
+msgid "Sensei Share Your Grade"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://woothemes.com/products/sensei-share-your-grade/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Hi, I'm here to help you share your course results via Twitter, Facebook and more, once you've completed a course."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "WooThemes"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://woothemes.com/"
+msgstr ""
