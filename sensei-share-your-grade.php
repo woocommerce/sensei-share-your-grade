@@ -124,6 +124,9 @@ final class Sensei_Share_Your_Grade {
 
 		register_activation_hook( __FILE__, array( $this, 'install' ) );
 
+		$this->load_plugin_textdomain();
+		add_action( 'init', array( $this, 'load_localisation' ), 0 );
+
 		// Set up the data we will need for our output.
 		add_action( 'sensei_course_results_info', array( $this, 'setup_data_before_output' ), 20 );
 
@@ -133,6 +136,30 @@ final class Sensei_Share_Your_Grade {
 		// Display sharing buttons when viewing course results.
 		add_action( 'sensei_course_results_info', array( $this, 'output_sharing_buttons' ), 40 );
 	} // End __construct()
+
+	/**
+	 * Load the plugin's localisation file.
+	 * @access public
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function load_localisation () {
+		load_plugin_textdomain( 'sensei-share-your-grade', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+	} // End load_localisation()
+
+	/**
+	 * Load the plugin textdomain from the main WordPress "languages" folder.
+	 * @since  1.0.0
+	 * @return  void
+	 */
+	public function load_plugin_textdomain () {
+	    $domain = 'sensei-share-your-grade';
+	    // The "plugin_locale" filter is also used in load_plugin_textdomain()
+	    $locale = apply_filters( 'plugin_locale', get_locale(), $domain );
+
+	    load_textdomain( $domain, WP_LANG_DIR . '/' . $domain . '/' . $domain . '-' . $locale . '.mo' );
+	    load_plugin_textdomain( $domain, FALSE, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+	} // End load_plugin_textdomain()
 
 	/**
 	 * Set up the necessary data, before we begin output.
