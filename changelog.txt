@@ -1,0 +1,4 @@
+*** Sensei Share Your Grade Changelog ***
+
+2014.xx.xx - version 1.0.0
+* First release

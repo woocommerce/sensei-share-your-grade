@@ -20,7 +20,35 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-Sensei_Share_Your_Grade();
+/**
+ * Required functions
+ */
+if ( ! function_exists( 'woothemes_queue_update' ) ) {
+	require_once( 'woo-includes/woo-functions.php' );
+}
+
+/**
+ * Plugin updates
+ */
+woothemes_queue_update( plugin_basename( __FILE__ ), 'FILE_ID', 'PRODUCT_ID' );
+
+/**
+ * Functions used by plugins
+ */
+if ( ! class_exists( 'WooThemes_Sensei_Dependencies' ) ) {
+	require_once 'woo-includes/class-woothemes-sensei-dependencies.php';
+}
+
+/**
+ * Sensei Detection
+ */
+if ( ! function_exists( 'is_sensei_active' ) ) {
+  function is_sensei_active() {
+  	return WooThemes_Sensei_Dependencies::sensei_active_check();
+  }
+}
+
+if ( is_sensei_active() ) Sensei_Share_Your_Grade();
 
 /**
  * Returns the main instance of Sensei_Share_Your_Grade to prevent the need to use globals.
