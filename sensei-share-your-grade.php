@@ -408,6 +408,47 @@ final class Sensei_Share_Your_Grade {
 	} // End maybe_render_googleplus_js()
 
 	/**
+	 * Return a formatted LinkedIn sharing button.
+	 * @access  public
+	 * @since   1.0.0
+	 * @return  string
+	 */
+	public function render_linkedin_button ( $message ) {
+		$this->_has_googleplus_button = true;
+
+		$defaults = array(
+			'url' => get_permalink( $this->_course_data['course_id'] ),
+			'counter' => '' // Empty for no counter, 'top' for a top counter and 'right' for a right counter.
+			);
+
+		$args = (array)apply_filters( 'sensei_share_your_grade_linkedin_button_args', $args );
+		$args = wp_parse_args( $args, $defaults );
+
+		// Make sure we have args. Otherwise, don't output.
+		if ( 0 < count( $args ) ) {
+			// If an argument is not in the defaults, remove it.
+			foreach ( $args as $k => $v ) {
+				if ( ! in_array( $k, array_keys( $defaults ) ) ) {
+					unset( $args[$k] );
+				}
+			}
+
+			// Prepare the "data" attributes.
+			$atts = '';
+			foreach ( $args as $k => $v ) {
+				if ( '' != $v ) {
+					$atts .= ' data-' . $k . '="' . esc_attr( $v ) . '"';
+				}
+			}
+
+			$html = '<script src="//platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>' . "\n";
+			$html .= '<script type="IN/Share" ' . $atts . '></script>'. "\n";
+
+			echo $html;
+		}
+	} // End render_linkedin_button()
+
+	/**
 	 * Return a formatted message to be shared.
 	 * @access  public
 	 * @since   1.0.0
@@ -498,7 +539,7 @@ final class Sensei_Share_Your_Grade {
 	 * @return  string
 	 */
 	private function _get_supported_networks () {
-		return (array)apply_filters( 'sensei_share_your_grade_supported_networks', array( 'twitter' => 'method', 'facebook' => 'method', 'googleplus' => 'method' ) );
+		return (array)apply_filters( 'sensei_share_your_grade_supported_networks', array( 'twitter' => 'method', 'facebook' => 'method', 'googleplus' => 'method', 'linkedin' => 'method' ) );
 	} // End _get_supported_networks()
 
 	/**
