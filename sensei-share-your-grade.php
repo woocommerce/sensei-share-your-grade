@@ -215,7 +215,7 @@ final class Sensei_Share_Your_Grade {
 	public function output_sharing_message () {
 		$message = $this->get_message();
 		if ( '' != $message ) {
-			echo '<div class="sensei-share-your-grade message">' . "\n";
+			echo '<div class="sensei-share-your-grade sensei-message">' . "\n";
 			echo apply_filters( 'sensei_share_your_grade_preview_heading', '<h2>' . __( 'Share your progress!', 'sensei-share-your-grade' ) . '</h2>' );
 			echo sprintf( apply_filters( 'sensei_share_your_grade_preview_description', __( 'Go on, get social! Share your progress with your friends and family on social media. Here\'s a preview of the message they will see. %1$s', 'sensei-share-your-grade' ) ), '<div class="message-preview"><pre>' . "\n" . wpautop( make_clickable( $message ) ) . "\n" . '</pre></div><!--/.message-preview-->' . "\n" );
 			echo '</div><!--/.sensei-share-your-grade message-->' . "\n";
@@ -232,20 +232,24 @@ final class Sensei_Share_Your_Grade {
 	public function output_sharing_buttons () {
 		$message = $this->get_message();
 		if ( '' != $message ) {
-			echo '<div class="sensei-share-your-grade buttons">' . "\n";
+			echo '<ul class="sensei-share-your-grade buttons">' . "\n";
 			$networks = $this->_get_supported_networks();
 			if ( 0 < count( $networks ) ) {
 				foreach ( $networks as $k => $v ) {
 					if ( '' != $v && 'method' != $v && function_exists( $v ) ) {
+						echo '<li>';
 						$v();
+						echo '</li>';
 					} else {
 						if ( 'method' == $v && method_exists( $this, 'render_' . $k . '_button' ) ) {
+							echo '<li>';
 							$this->{'render_' . $k . '_button'}( $message );
+							echo '</li>';
 						}
 					}
 				}
 			}
-			echo '</div><!--/.sensei-share-your-grade buttons-->' . "\n";
+			echo '</ul><!--/.sensei-share-your-grade buttons-->' . "\n";
 		}
 		do_action( 'sensei_share_your_grade_output_sharing_buttons' );
 	} // End output_sharing_buttons()
