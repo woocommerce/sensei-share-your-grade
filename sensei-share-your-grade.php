@@ -103,6 +103,14 @@ final class Sensei_Share_Your_Grade {
 	private $_course_data;
 
 	/**
+	 * A collection of the data we're working with for the current lesson results.
+	 * @var     array
+	 * @access  private
+	 * @since   1.0.0
+	 */
+	private $_lesson_data;
+
+	/**
 	 * Whether or not we've output the Facebook JavaScript SDK.
 	 * @var     boolean
 	 * @access  private
@@ -137,13 +145,22 @@ final class Sensei_Share_Your_Grade {
 		add_action( 'init', array( $this, 'load_localisation' ), 0 );
 
 		// Set up the data we will need for our output.
-		add_action( 'sensei_course_results_info', array( $this, 'setup_data_before_output' ), 20 );
+		add_action( 'sensei_course_results_info', array( $this, 'setup_course_data_before_output' ), 20 );
+		// TODO - change to use more appropriate hooks when available.
+		add_action( 'sensei_lesson_single_meta', array( $this, 'setup_lesson_data_before_output' ), 20 );
+		add_action( 'sensei_quiz_back_link', array( $this, 'setup_lesson_data_before_output' ), 4 );
 
 		// Display a message when viewing course results.
 		add_action( 'sensei_course_results_info', array( $this, 'output_sharing_message' ), 30 );
+		// TODO - change to use more appropriate hooks when available.
+		add_action( 'sensei_lesson_single_meta', array( $this, 'output_sharing_message' ), 30 );
+		add_action( 'sensei_quiz_back_link', array( $this, 'output_sharing_message' ), 5 );
 
 		// Display sharing buttons when viewing course results.
 		add_action( 'sensei_course_results_info', array( $this, 'output_sharing_buttons' ), 40 );
+		// TODO - change to use more appropriate hooks when available.
+		add_action( 'sensei_lesson_single_meta', array( $this, 'output_sharing_buttons' ), 30 );
+		add_action( 'sensei_quiz_back_link', array( $this, 'output_sharing_buttons' ), 5 );
 
 		// Conditionally output the JavaScript for the Google Plus button, if it is present.
 		add_action( 'wp_footer', array( $this, 'maybe_render_googleplus_js' ) );
@@ -174,12 +191,27 @@ final class Sensei_Share_Your_Grade {
 	} // End load_plugin_textdomain()
 
 	/**
-	 * Set up the necessary data, before we begin output.
+	 * Determines if we're on a single lesson/quiz page
+	 * @access  public
+	 * @since   1.0.0
+	 * @return  boolean
+	 */
+	public function is_lesson() {
+		global $post;
+		if( 'lesson' == $post->post_type || 'quiz' == $post->post_type ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Set up the necessary course data, before we begin output.
 	 * @access  public
 	 * @since   1.0.0
 	 * @return  string
 	 */
-	public function setup_data_before_output () {
+	public function setup_course_data_before_output () {
 		global $woothemes_sensei, $course, $current_user;
 
 		if ( ! is_a( $course, 'WP_Post' ) || ! is_a( $current_user, 'WP_User' ) ) return;
@@ -203,7 +235,64 @@ final class Sensei_Share_Your_Grade {
 
 		$this->set_current_course_data( $args );
 
-		do_action( 'sensei_share_your_grade_setup_data_before_output' );
+		do_action( 'sensei_share_your_grade_setup_course_data_before_output' );
+	} // End setup_data_before_output()
+
+	/**
+	 * Set up the necessary lesson data, before we begin output.
+	 * @access  public
+	 * @since   1.0.0
+	 * @return  string
+	 */
+	public function setup_lesson_data_before_output () {
+		global $woothemes_sensei, $post, $current_user;
+
+		if ( ! ( is_singular( 'lesson' ) || is_singular( 'quiz' ) ) || ! is_a( $current_user, 'WP_User' ) ) return;
+
+		// Get the lesson id
+		if( 'lesson' == $post->post_type ) {
+			$lesson_id = $post->ID;
+		} elseif( 'quiz' == $post->post_type ) {
+			$lesson_id = absint( get_post_meta( $post->ID, '_quiz_lesson', true ) );
+		} else {
+			return;
+		}
+
+		$course_id = get_post_meta( $lesson_id, '_lesson_course', true );
+		$user_id = intval( $current_user->ID );
+		$has_passed = false;
+
+		// Find out if the user has passed the current lesson
+		$lesson_quizzes = $woothemes_sensei->post_types->lesson->lesson_quizzes( $lesson_id );
+        // Get Quiz ID
+        if ( is_array( $lesson_quizzes ) || is_object( $lesson_quizzes ) ) {
+            foreach ($lesson_quizzes as $quiz_item) {
+                $lesson_quiz_id = $quiz_item->ID;
+            } // End For Loop
+
+			// Get the user's grade
+	        $user_grade = WooThemes_Sensei_Utils::sensei_get_activity_value( array( 'post_id' => $lesson_quiz_id, 'user_id' => $user_id, 'type' => 'sensei_quiz_grade', 'field' => 'comment_content' ) );
+	        // Check if Grade is greater than pass percentage
+	        $pass_mark = abs( round( doubleval( get_post_meta( $lesson_quiz_id, '_quiz_passmark', true ) ), 2 ) );
+	        if ( $pass_mark <= intval( $user_grade ) ) {
+	            $has_passed = true;
+	        } // End If Statement
+	    }
+	    // No action required if the user hasn't passed the course
+		if ( false == $has_passed ) return;
+
+		$args = array(
+			'has_passed' => $has_passed,
+			'pass_mark' => $pass_mark,
+			'user_grade' => $user_grade,
+			'course_id' => $course_id,
+			'user_id' => $user_id,
+			'lesson_id' => $lesson_id
+		);
+
+		$this->set_current_lesson_data( $args );
+
+		do_action( 'sensei_share_your_grade_setup_lesson_data_before_output' );
 	} // End setup_data_before_output()
 
 	/**
@@ -418,7 +507,6 @@ final class Sensei_Share_Your_Grade {
 	 * @return  string
 	 */
 	public function render_linkedin_button ( $message ) {
-		$this->_has_googleplus_button = true;
 
 		$defaults = array(
 			'url' => get_permalink( $this->_course_data['course_id'] ),
@@ -459,6 +547,14 @@ final class Sensei_Share_Your_Grade {
 	 * @return  string
 	 */
 	public function get_message () {
+		global $post;
+		if( $this->is_lesson() ) {
+			// If lesson is not passed, leave the message blank so nothing will be output
+			if ( true !== $this->_lesson_data['has_passed'] ) {
+				$message = '';
+				return $message;
+			}
+		}
 		$status = $this->_get_passed_or_failed();
 		$message = $this->_format_message( $this->get_message_template( $status ) );
 		return apply_filters( 'sensei_share_your_grade_message', $message );
@@ -487,7 +583,7 @@ final class Sensei_Share_Your_Grade {
 	 * @return  string
 	 */
 	public function get_message_template_passed () {
-		return apply_filters( 'sensei_share_your_grade_message_template_passed', __( 'I just %%STATUS%% %%COURSE_NAME%%, over at %%SITE_NAME%% with %%PERCENTAGE%%%! Take the course, today! %%COURSE_PERMALINK%%', 'sensei-share-your-grade' ) );
+		return apply_filters( 'sensei_share_your_grade_message_template_passed', __( 'I just %%STATUS%% %%POST_NAME%%, over at %%SITE_NAME%% with %%PERCENTAGE%%%! Take the course, today! %%COURSE_PERMALINK%%', 'sensei-share-your-grade' ) );
 	} // End get_message_template_passed()
 
 	/**
@@ -497,7 +593,7 @@ final class Sensei_Share_Your_Grade {
 	 * @return  string
 	 */
 	public function get_message_template_failed () {
-		return apply_filters( 'sensei_share_your_grade_message_template_failed', __( 'Cheer me on as I work to pass the %%COURSE_NAME%% course, over at %%SITE_NAME%%! Take the course with me, today! %%COURSE_PERMALINK%%', 'sensei-share-your-grade' ) );
+		return apply_filters( 'sensei_share_your_grade_message_template_failed', __( 'Cheer me on as I work to pass the %%POST_NAME%% course, over at %%SITE_NAME%%! Take the course with me, today! %%COURSE_PERMALINK%%', 'sensei-share-your-grade' ) );
 	} // End get_message_template_failed()
 
 	/**
@@ -507,9 +603,9 @@ final class Sensei_Share_Your_Grade {
 	 * @return  string
 	 */
 	private function _get_passed_or_failed () {
-		$template = 'passed';
-		if ( true !== $this->_course_data['has_passed'] ) {
-			$template = 'failed';
+		$template = 'failed';
+		if ( true == $this->_course_data['has_passed'] || true == $this->_lesson_data['has_passed'] ) {
+			$template = 'passed';
 		}
 		return $template;
 	} // End _get_passed_or_failed()
@@ -525,13 +621,21 @@ final class Sensei_Share_Your_Grade {
 	 */
 	private function _format_message ( $unformatted_text ) {
 		$message = $unformatted_text;
-		$data = $this->_course_data;
+		$c_data = $this->_course_data;
+		$l_data = $this->_lesson_data;
 
 		$message = str_replace( '%%SITE_NAME%%', get_bloginfo( 'name' ), $message );
-		$message = str_replace( '%%COURSE_NAME%%', get_the_title( $data['course_id'] ), $message );
-		$message = str_replace( '%%COURSE_PERMALINK%%', get_permalink( $data['course_id'] ), $message );
-		$message = str_replace( '%%PERCENTAGE%%', intval( $data['user_grade'] ), $message );
-		$message = str_replace( '%%STATUS%%', $data['status_text'], $message );
+		if( $this->is_lesson() ) {
+			$message = str_replace( '%%POST_NAME%%', get_the_title( $l_data['lesson_id'] ), $message );
+			$message = str_replace( '%%STATUS%%', $l_data['status_text'], $message );
+			$message = str_replace( '%%COURSE_PERMALINK%%', get_permalink( $l_data['course_id'] ), $message );
+			$message = str_replace( '%%PERCENTAGE%%', intval( $l_data['user_grade'] ), $message );
+		} else {
+			$message = str_replace( '%%POST_NAME%%', get_the_title( $c_data['course_id'] ), $message );
+			$message = str_replace( '%%STATUS%%', $c_data['status_text'], $message );
+			$message = str_replace( '%%COURSE_PERMALINK%%', get_permalink( $c_data['course_id'] ), $message );
+			$message = str_replace( '%%PERCENTAGE%%', intval( $c_data['user_grade'] ), $message );
+		}
 
 		return $message;
 	} // End _format_message()
@@ -566,6 +670,27 @@ final class Sensei_Share_Your_Grade {
 			}
 		}
 	} // End set_current_course_data()
+
+	/**
+	 * Set the data we'll be using for the current lesson.
+	 * @access  public
+	 * @since   1.0.0
+	 * @param 	array $args Arguments to store.
+	 * @return  string
+	 */
+	public function set_current_lesson_data ( $args = array() ) {
+		if ( 0 < count( $args ) ) {
+			foreach ( $args as $k => $v ) {
+				$this->_lesson_data[$k] = $v;
+			}
+
+			if ( isset( $this->_lesson_data['has_passed'] ) && true == $this->_lesson_data['has_passed'] ) {
+				$this->_lesson_data['status_text'] = __( 'passed', 'sensei-share-your-grade' );
+			} else {
+				$this->_lesson_data['status_text'] = __( 'failed', 'sensei-share-your-grade' );
+			}
+		}
+	} // End set_current_lesson_data()
 
 	/**
 	 * Main Sensei_Share_Your_Grade Instance
