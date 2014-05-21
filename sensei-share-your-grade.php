@@ -57,7 +57,7 @@ if ( is_sensei_active() ) Sensei_Share_Your_Grade();
  * @return object Sensei_Share_Your_Grade
  */
 function Sensei_Share_Your_Grade() {
-	return Sensei_Share_Your_Grade::instance();
+	return Sensei_Share_Your_Grade::instance( __FILE__, '1.0.0' );
 } // End Sensei_Share_Your_Grade()
 
 /**
@@ -93,6 +93,38 @@ final class Sensei_Share_Your_Grade {
 	 * @since   1.0.0
 	 */
 	private $_version;
+
+	/**
+	 * The main plugin file.
+	 * @var     string
+	 * @access  private
+	 * @since   1.0.0
+	 */
+	private $file;
+
+	/**
+	 * The main plugin directory.
+	 * @var     string
+	 * @access  private
+	 * @since   1.0.0
+	 */
+	private $dir;
+
+	/**
+	 * The plugin assets directory.
+	 * @var     string
+	 * @access  private
+	 * @since   1.0.0
+	 */
+	private $assets_dir;
+
+	/**
+	 * The plugin assets URL.
+	 * @var     string
+	 * @access  private
+	 * @since   1.0.0
+	 */
+	private $assets_url;
 
 	/**
 	 * A collection of the data we're working with for the current course results.
@@ -132,14 +164,19 @@ final class Sensei_Share_Your_Grade {
 	 * @since   1.0.0
 	 * @return  void
 	 */
-	public function __construct () {
+	public function __construct ( $file, $version = '1.0.0' ) {
 		$this->_token = 'sensei-share-your-grade';
-		$this->_version = '1.0.0';
+		$this->_version = $version;
+
+		$this->file = $file;
+		$this->dir = dirname( $this->file );
+		$this->assets_dir = trailingslashit( $this->dir ) . 'assets';
+		$this->assets_url = esc_url( trailingslashit( plugins_url( '/assets/', $this->file ) ) );
 
 		$this->_has_output_fb_sdk = false;
 		$this->_has_googleplus_button = false;
 
-		register_activation_hook( __FILE__, array( $this, 'install' ) );
+		register_activation_hook( $this->file, array( $this, 'install' ) );
 
 		$this->load_plugin_textdomain();
 		add_action( 'init', array( $this, 'load_localisation' ), 0 );
@@ -164,6 +201,10 @@ final class Sensei_Share_Your_Grade {
 
 		// Conditionally output the JavaScript for the Google Plus button, if it is present.
 		add_action( 'wp_footer', array( $this, 'maybe_render_googleplus_js' ) );
+
+		// Load frontend CSS
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ), 10 );
+
 	} // End __construct()
 
 	/**
@@ -191,6 +232,19 @@ final class Sensei_Share_Your_Grade {
 	} // End load_plugin_textdomain()
 
 	/**
+	 * Load frontend CSS.
+	 * @access  public
+	 * @since   1.0.0
+	 * @return void
+	 */
+	public function enqueue_styles () {
+		global $woothemes_sensei;
+
+		wp_register_style( $this->_token . '-frontend', esc_url( $this->assets_url ) . 'css/frontend.css', $this->_version );
+		wp_enqueue_style( $this->_token . '-frontend' );
+	} // End enqueue_styles()
+
+	/**
 	 * Determines if we're on a single lesson/quiz page
 	 * @access  public
 	 * @since   1.0.0
@@ -204,6 +258,24 @@ final class Sensei_Share_Your_Grade {
 			return false;
 		}
 	}
+
+	/**
+	 * Get the course URL for the current course/lesson
+	 * @access  public
+	 * @since   1.0.0
+	 * @return  string
+	 */
+	public function get_course_url() {
+		$course_url = '';
+		if( $this->is_lesson() ) {
+			$course_url = get_permalink( $this->_lesson_data['course_id'] );
+		} else {
+			$course_url = get_permalink( $this->_course_data['course_id'] );
+		}
+		$course_url = esc_url( $course_url );
+
+		return $course_url;
+	} // End get_course_url()
 
 	/**
 	 * Set up the necessary course data, before we begin output.
@@ -304,9 +376,9 @@ final class Sensei_Share_Your_Grade {
 	public function output_sharing_message () {
 		$message = $this->get_message();
 		if ( '' != $message ) {
-			echo '<div class="sensei-share-your-grade sensei-message">' . "\n";
+			echo '<div class="sensei-share-your-grade message">' . "\n";
 			echo apply_filters( 'sensei_share_your_grade_preview_heading', '<h2>' . __( 'Share your progress!', 'sensei-share-your-grade' ) . '</h2>' );
-			echo sprintf( apply_filters( 'sensei_share_your_grade_preview_description', __( 'Go on, get social! Share your progress with your friends and family on social media. Here\'s a preview of the message they will see. %1$s', 'sensei-share-your-grade' ) ), '<div class="message-preview"><pre>' . "\n" . wpautop( make_clickable( $message ) ) . "\n" . '</pre></div><!--/.message-preview-->' . "\n" );
+			echo sprintf( apply_filters( 'sensei_share_your_grade_preview_description', '<p>' . __( 'Go on, get social! Share your progress with your friends and family on social media. Here\'s a preview of the message they will see: %1$s', 'sensei-share-your-grade' ) . '</p>' ), '<div class="message-preview" itemprop="description"><pre>' . "\n" . wpautop( make_clickable( $message ) ) . "\n" . '</pre></div><!--/.message-preview-->' . "\n" );
 			echo '</div><!--/.sensei-share-your-grade message-->' . "\n";
 		}
 		do_action( 'sensei_share_your_grade_output_sharing_message' );
@@ -351,13 +423,14 @@ final class Sensei_Share_Your_Grade {
 	 */
 	public function render_twitter_button ( $message, $args = array() ) {
 		$defaults = array(
-			'url' => get_permalink( $this->_course_data['course_id'] ),
+			// No url required as it's already in the message
+			'url' => 'none',
 			'via' => '',
 			'text' => $message,
 			'related' => '',
-			'count' => '',
+			'count' => 'none',
 			'lang' => '',
-			'counturl' => get_permalink( $this->_course_data['course_id'] ),
+			'counturl' => '',
 			'hashtags' => '',
 			'size' => '',
 			'dnt' => ''
@@ -394,7 +467,7 @@ final class Sensei_Share_Your_Grade {
 	 * @since   1.0.0
 	 * @return  string
 	 */
-	public function render_facebook_button ( $message ) {
+	public function render_facebook_button ( $message = '' ) {
 		// Only output the Facebook JavaScript SDK once.
 		if ( false == $this->_has_output_fb_sdk ) {
 			echo '<div id="fb-root"></div>
@@ -409,8 +482,8 @@ final class Sensei_Share_Your_Grade {
 		}
 
 		$defaults = array(
-			'href' => get_permalink( $this->_course_data['course_id'] ),
-			'type' => 'button_count'
+			'href' => $this->get_course_url(),
+			'type' => 'button'
 			);
 
 		$args = (array)apply_filters( 'sensei_share_your_grade_facebook_button_args', $args );
@@ -443,11 +516,11 @@ final class Sensei_Share_Your_Grade {
 	 * @since   1.0.0
 	 * @return  string
 	 */
-	public function render_googleplus_button ( $message ) {
+	public function render_googleplus_button ( $message = '' ) {
 		$this->_has_googleplus_button = true;
 
 		$defaults = array(
-			'href' => get_permalink( $this->_course_data['course_id'] ),
+			'href' => $this->get_course_url(),
 			'annotation' => 'none',
 			'height' => '', // Small: 15. Large: 24.
 			'width' => '' // An integer value.
@@ -506,10 +579,10 @@ final class Sensei_Share_Your_Grade {
 	 * @since   1.0.0
 	 * @return  string
 	 */
-	public function render_linkedin_button ( $message ) {
+	public function render_linkedin_button ( $message = '' ) {
 
 		$defaults = array(
-			'url' => get_permalink( $this->_course_data['course_id'] ),
+			'url' => $this->get_course_url(),
 			'counter' => '' // Empty for no counter, 'top' for a top counter and 'right' for a right counter.
 			);
 
@@ -625,15 +698,15 @@ final class Sensei_Share_Your_Grade {
 		$l_data = $this->_lesson_data;
 
 		$message = str_replace( '%%SITE_NAME%%', get_bloginfo( 'name' ), $message );
+		$message = str_replace( '%%COURSE_PERMALINK%%', $this->get_course_url(), $message );
+
 		if( $this->is_lesson() ) {
 			$message = str_replace( '%%POST_NAME%%', get_the_title( $l_data['lesson_id'] ), $message );
 			$message = str_replace( '%%STATUS%%', $l_data['status_text'], $message );
-			$message = str_replace( '%%COURSE_PERMALINK%%', get_permalink( $l_data['course_id'] ), $message );
 			$message = str_replace( '%%PERCENTAGE%%', intval( $l_data['user_grade'] ), $message );
 		} else {
 			$message = str_replace( '%%POST_NAME%%', get_the_title( $c_data['course_id'] ), $message );
 			$message = str_replace( '%%STATUS%%', $c_data['status_text'], $message );
-			$message = str_replace( '%%COURSE_PERMALINK%%', get_permalink( $c_data['course_id'] ), $message );
 			$message = str_replace( '%%PERCENTAGE%%', intval( $c_data['user_grade'] ), $message );
 		}
 
@@ -702,9 +775,9 @@ final class Sensei_Share_Your_Grade {
 	 * @see Sensei_Share_Your_Grade()
 	 * @return Main Sensei_Share_Your_Grade instance
 	 */
-	public static function instance () {
+	public static function instance ( $file, $version = '1.0.0' ) {
 		if ( is_null( self::$_instance ) )
-			self::$_instance = new self();
+			self::$_instance = new self( $file, $version );
 		return self::$_instance;
 	} // End instance()
 
