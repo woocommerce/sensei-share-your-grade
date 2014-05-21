@@ -378,7 +378,7 @@ final class Sensei_Share_Your_Grade {
 		if ( '' != $message ) {
 			echo '<div class="sensei-share-your-grade message">' . "\n";
 			echo apply_filters( 'sensei_share_your_grade_preview_heading', '<h2>' . __( 'Share your progress!', 'sensei-share-your-grade' ) . '</h2>' );
-			echo sprintf( apply_filters( 'sensei_share_your_grade_preview_description', '<p>' . __( 'Go on, get social! Share your progress with your friends and family on social media. Here\'s a preview of the message they will see: %1$s', 'sensei-share-your-grade' ) . '</p>' ), '<div class="message-preview" itemprop="description"><pre>' . "\n" . wpautop( make_clickable( $message ) ) . "\n" . '</pre></div><!--/.message-preview-->' . "\n" );
+			echo sprintf( apply_filters( 'sensei_share_your_grade_preview_description', '<p>' . __( 'Go on, get social! Share your progress with your friends and family on social media.', 'sensei-share-your-grade' ) . '</p>' ) );
 			echo '</div><!--/.sensei-share-your-grade message-->' . "\n";
 		}
 		do_action( 'sensei_share_your_grade_output_sharing_message' );
