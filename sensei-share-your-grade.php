@@ -467,7 +467,7 @@ final class Sensei_Share_Your_Grade {
 	 * @since   1.0.0
 	 * @return  string
 	 */
-	public function render_facebook_button ( $message = '' ) {
+	public function render_facebook_button ( $message = '', $args = array() ) {
 		// Only output the Facebook JavaScript SDK once.
 		if ( false == $this->_has_output_fb_sdk ) {
 			echo '<div id="fb-root"></div>
@@ -516,7 +516,7 @@ final class Sensei_Share_Your_Grade {
 	 * @since   1.0.0
 	 * @return  string
 	 */
-	public function render_googleplus_button ( $message = '' ) {
+	public function render_googleplus_button ( $message = '', $args = array() ) {
 		$this->_has_googleplus_button = true;
 
 		$defaults = array(
@@ -579,7 +579,7 @@ final class Sensei_Share_Your_Grade {
 	 * @since   1.0.0
 	 * @return  string
 	 */
-	public function render_linkedin_button ( $message = '' ) {
+	public function render_linkedin_button ( $message = '', $args = array() ) {
 
 		$defaults = array(
 			'url' => $this->get_course_url(),
