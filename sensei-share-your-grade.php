@@ -319,7 +319,7 @@ final class Sensei_Share_Your_Grade {
 	public function setup_lesson_data_before_output () {
 		global $woothemes_sensei, $post, $current_user;
 
-		if ( ! ( is_singular( 'lesson' ) || is_singular( 'quiz' ) ) || ! is_a( $current_user, 'WP_User' ) ) return;
+		if ( ! ( is_singular( 'lesson' ) || is_singular( 'quiz' ) ) || ! is_a( $current_user, 'WP_User' ) || ! is_user_logged_in() ) return;
 
 		// Get the lesson id
 		if( 'lesson' == $post->post_type ) {
