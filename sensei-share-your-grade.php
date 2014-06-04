@@ -335,21 +335,24 @@ final class Sensei_Share_Your_Grade {
 		$has_passed = false;
 
 		// Find out if the user has passed the current lesson
-		$lesson_quizzes = $woothemes_sensei->post_types->lesson->lesson_quizzes( $lesson_id );
-        // Get Quiz ID
-        if ( is_array( $lesson_quizzes ) || is_object( $lesson_quizzes ) ) {
-            foreach ($lesson_quizzes as $quiz_item) {
-                $lesson_quiz_id = $quiz_item->ID;
-            } // End For Loop
+		$user_lesson_end =  WooThemes_Sensei_Utils::sensei_get_activity_value( array( 'post_id' => $lesson_id, 'user_id' => $user_id, 'type' => 'sensei_lesson_end', 'field' => 'comment_content' ) );
+			if ( '' != $user_lesson_end ) {
+				$lesson_quizzes = $woothemes_sensei->post_types->lesson->lesson_quizzes( $lesson_id );
+		        // Get Quiz ID
+		        if ( is_array( $lesson_quizzes ) || is_object( $lesson_quizzes ) ) {
+		            foreach ($lesson_quizzes as $quiz_item) {
+		                $lesson_quiz_id = $quiz_item->ID;
+		            } // End For Loop
 
-			// Get the user's grade
-	        $user_grade = WooThemes_Sensei_Utils::sensei_get_activity_value( array( 'post_id' => $lesson_quiz_id, 'user_id' => $user_id, 'type' => 'sensei_quiz_grade', 'field' => 'comment_content' ) );
-	        // Check if Grade is greater than pass percentage
-	        $pass_mark = abs( round( doubleval( get_post_meta( $lesson_quiz_id, '_quiz_passmark', true ) ), 2 ) );
-	        if ( $pass_mark <= intval( $user_grade ) ) {
-	            $has_passed = true;
-	        } // End If Statement
-	    }
+					// Get the user's grade
+			        $user_grade = WooThemes_Sensei_Utils::sensei_get_activity_value( array( 'post_id' => $lesson_quiz_id, 'user_id' => $user_id, 'type' => 'sensei_quiz_grade', 'field' => 'comment_content' ) );
+			        // Check if Grade is greater than pass percentage
+			        $pass_mark = abs( round( doubleval( get_post_meta( $lesson_quiz_id, '_quiz_passmark', true ) ), 2 ) );
+			        if ( $pass_mark <= intval( $user_grade ) ) {
+			            $has_passed = true;
+			        } // End If Statement
+			    }
+			}
 	    // No action required if the user hasn't passed the course
 		if ( false == $has_passed ) return;
 
