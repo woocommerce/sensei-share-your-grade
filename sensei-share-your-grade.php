@@ -30,7 +30,7 @@ if ( ! function_exists( 'woothemes_queue_update' ) ) {
 /**
  * Plugin updates
  */
-woothemes_queue_update( plugin_basename( __FILE__ ), 'FILE_ID', 'PRODUCT_ID' );
+woothemes_queue_update( plugin_basename( __FILE__ ), '700f6f6786c764debcd5dfb789f5f506', 435830 );
 
 /**
  * Functions used by plugins
