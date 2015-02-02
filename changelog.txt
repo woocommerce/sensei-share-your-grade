@@ -1,4 +1,7 @@
 *** Sensei Share Your Grade Changelog ***
 
+2015.02.02 - version 1.0.1
+* New - Updating code for Sensei 1.7 compatibility
+
 2014.06.23 - version 1.0.0
 * First release

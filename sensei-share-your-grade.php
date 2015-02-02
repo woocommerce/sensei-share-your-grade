@@ -4,11 +4,11 @@
  * Plugin URI: http://woothemes.com/products/sensei-share-your-grade/
  * Description: Hi, I'm here to help you share your course results via Twitter, Facebook and more, once you've completed a course.
  * Author: WooThemes
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author URI: http://woothemes.com/
  *
- * Requires at least: 3.8.1
- * Tested up to: 3.8.1
+ * Requires at least: 3.8
+ * Tested up to: 4.1
  *
  * Text Domain: sensei-share-your-grade
  * Domain Path: /languages/
@@ -57,7 +57,7 @@ if ( is_sensei_active() ) Sensei_Share_Your_Grade();
  * @return object Sensei_Share_Your_Grade
  */
 function Sensei_Share_Your_Grade() {
-	return Sensei_Share_Your_Grade::instance( __FILE__, '1.0.0' );
+	return Sensei_Share_Your_Grade::instance( __FILE__, '1.0.1' );
 } // End Sensei_Share_Your_Grade()
 
 /**
@@ -291,7 +291,7 @@ final class Sensei_Share_Your_Grade {
 		$course_id = intval( $course->ID );
 		$user_id = intval( $current_user->ID );
 
-		$started_course = sensei_has_user_started_course( $course_id, $user_id );
+		$started_course = WooThemes_Sensei_Utils::user_started_course( $course_id, $user_id );
 
 		$pass_mark = WooThemes_Sensei_Utils::sensei_course_pass_grade( $course_id );
 		$user_grade = WooThemes_Sensei_Utils::sensei_course_user_grade( $course_id, $user_id );
@@ -335,26 +335,29 @@ final class Sensei_Share_Your_Grade {
 		$has_passed = false;
 
 		// Find out if the user has passed the current lesson
-		$user_lesson_end =  WooThemes_Sensei_Utils::sensei_get_activity_value( array( 'post_id' => $lesson_id, 'user_id' => $user_id, 'type' => 'sensei_lesson_end', 'field' => 'comment_content' ) );
-			if ( '' != $user_lesson_end ) {
-				$lesson_quizzes = $woothemes_sensei->post_types->lesson->lesson_quizzes( $lesson_id );
-		        // Get Quiz ID
-		        if ( is_array( $lesson_quizzes ) || is_object( $lesson_quizzes ) ) {
-		            foreach ($lesson_quizzes as $quiz_item) {
-		                $lesson_quiz_id = $quiz_item->ID;
-		            } // End For Loop
+		$user_lesson_status = WooThemes_Sensei_Utils::user_lesson_status( $lesson_id, $user_id );
+		$user_lesson_end = WooThemes_Sensei_Utils::user_completed_lesson( $user_lesson_status );
+		if ( $user_lesson_end ) {
+			$lesson_quizzes = $woothemes_sensei->post_types->lesson->lesson_quizzes( $lesson_id );
+	        // Get Quiz ID
+	        if ( is_array( $lesson_quizzes ) || is_object( $lesson_quizzes ) ) {
+	            foreach ($lesson_quizzes as $quiz_item) {
+	                $lesson_quiz_id = $quiz_item->ID;
+	            } // End For Loop
 
-					// Get the user's grade
-			        $user_grade = WooThemes_Sensei_Utils::sensei_get_activity_value( array( 'post_id' => $lesson_quiz_id, 'user_id' => $user_id, 'type' => 'sensei_quiz_grade', 'field' => 'comment_content' ) );
-			        // Check if Grade is greater than pass percentage
-			        $pass_mark = abs( round( doubleval( get_post_meta( $lesson_quiz_id, '_quiz_passmark', true ) ), 2 ) );
-			        if ( $pass_mark <= intval( $user_grade ) ) {
-			            $has_passed = true;
-			        } // End If Statement
-			    }
-			}
+				// Get the user's grade
+		        $user_grade = WooThemes_Sensei_Utils::sensei_get_activity_value( array( 'post_id' => $lesson_quiz_id, 'user_id' => $user_id, 'type' => 'sensei_quiz_grade', 'field' => 'comment_content' ) );
+		        // Check if Grade is greater than pass percentage
+		        $pass_mark = abs( round( doubleval( get_post_meta( $lesson_quiz_id, '_quiz_passmark', true ) ), 2 ) );
+		        if ( $pass_mark <= intval( $user_grade ) ) {
+		            $has_passed = true;
+		        } // End If Statement
+		    }
+		}
 	    // No action required if the user hasn't passed the course
-		if ( false == $has_passed ) return;
+		if ( false == $has_passed ) {
+			return;
+		}
 
 		$args = array(
 			'has_passed' => $has_passed,
