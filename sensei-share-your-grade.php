@@ -337,6 +337,15 @@ final class Sensei_Share_Your_Grade {
 		// Find out if the user has passed the current lesson
 		$user_lesson_status = WooThemes_Sensei_Utils::user_lesson_status( $lesson_id, $user_id );
 		$has_passed = WooThemes_Sensei_Utils::user_completed_lesson( $user_lesson_status );
+		if ( $has_passed ) {
+			// Get Quiz ID
+			$lesson_quiz_id = $woothemes_sensei->post_types->lesson->lesson_quizzes( $lesson_id );
+
+			// Get the user's grade
+			$user_grade = get_comment_meta( $user_lesson_status->comment_ID, 'grade', true );
+			// and pass percentage
+			$pass_mark = abs( round( doubleval( get_post_meta( $lesson_quiz_id, '_quiz_passmark', true ) ), 2 ) );
+		}
 		// No action required if the user hasn't passed the lesson
 		if ( false == $has_passed ) {
 			return;
