@@ -626,7 +626,7 @@ final class Sensei_Share_Your_Grade {
 				return $message;
 			}
 		}
-		$status = $this->_get_passed_or_failed();
+		$status = $this->_get_status();
 		$message = $this->_format_message( $this->get_message_template( $status ) );
 		return apply_filters( 'sensei_share_your_grade_message', $message );
 	} // End get_message()
@@ -641,11 +641,23 @@ final class Sensei_Share_Your_Grade {
 	public function get_message_template ( $status = 'failed' ) {
 		if ( 'passed' == $status ) {
 			$template = $this->get_message_template_passed();
+		} elseif ( 'completed' == $status ) {
+			$template = $this->get_message_template_completed();
 		} else {
 			$template = $this->get_message_template_failed();
 		}
 		return $template;
 	} // End get_message_template()
+
+	/**
+	 * Return a text template for the message to be shared, if the student has completed.
+	 * @access  public
+	 * @since   1.0.2
+	 * @return  string
+	 */
+	public function get_message_template_completed () {
+		return apply_filters( 'sensei_share_your_grade_message_template_completed', __( 'I just %%STATUS%% %%POST_NAME%%, over at %%SITE_NAME%%! Take the course, today! %%COURSE_PERMALINK%%', 'sensei-share-your-grade' ) );
+	} // End get_message_template_completed()
 
 	/**
 	 * Return a text template for the message to be shared, if the student has passed.
@@ -674,12 +686,28 @@ final class Sensei_Share_Your_Grade {
 	 * @return  string
 	 */
 	private function _get_passed_or_failed () {
+		return $this->_get_status();
+	} // End _get_passed_or_failed()
+
+	/**
+	 * Return overall user's status, depending on the user's status with the current course or lesson and their grade.
+	 * @access  private
+	 * @since   1.0.2
+	 * @return  string
+	 */
+	private function _get_status () {
 		$template = 'failed';
-		if ( true == $this->_course_data['has_passed'] || true == $this->_lesson_data['has_passed'] ) {
+		if ( true == $this->_course_data['has_passed'] ) {
 			$template = 'passed';
 		}
+		elseif ( true == $this->_lesson_data['has_passed'] && 0 < intval($this->_lesson_data['user_grade']) ) {
+			$template = 'passed';
+		}
+		elseif ( true == $this->_lesson_data['has_passed'] && 0 === intval($this->_lesson_data['user_grade']) ) {
+			$template = 'completed';
+		}
 		return $template;
-	} // End _get_passed_or_failed()
+	} // End _get_status()
 
 	/**
 	 * Format the given message, replacing the various placeholders.
@@ -756,7 +784,11 @@ final class Sensei_Share_Your_Grade {
 			}
 
 			if ( isset( $this->_lesson_data['has_passed'] ) && true == $this->_lesson_data['has_passed'] ) {
-				$this->_lesson_data['status_text'] = __( 'passed', 'sensei-share-your-grade' );
+				if ( isset( $this->_lesson_data['user_grade'] ) && 0 === intval( $this->_lesson_data['user_grade'] ) ) {
+					$this->_lesson_data['status_text'] = __( 'completed', 'sensei-share-your-grade' );
+				} else {
+					$this->_lesson_data['status_text'] = __( 'passed', 'sensei-share-your-grade' );
+				}
 			} else {
 				$this->_lesson_data['status_text'] = __( 'failed', 'sensei-share-your-grade' );
 			}
