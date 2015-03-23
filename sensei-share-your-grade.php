@@ -4,7 +4,7 @@
  * Plugin URI: http://woothemes.com/products/sensei-share-your-grade/
  * Description: Hi, I'm here to help you share your course results via Twitter, Facebook and more, once you've completed a course.
  * Author: WooThemes
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author URI: http://woothemes.com/
  *
  * Requires at least: 3.8
@@ -57,7 +57,7 @@ if ( is_sensei_active() ) Sensei_Share_Your_Grade();
  * @return object Sensei_Share_Your_Grade
  */
 function Sensei_Share_Your_Grade() {
-	return Sensei_Share_Your_Grade::instance( __FILE__, '1.0.1' );
+	return Sensei_Share_Your_Grade::instance( __FILE__, '1.0.2' );
 } // End Sensei_Share_Your_Grade()
 
 /**
@@ -805,7 +805,7 @@ final class Sensei_Share_Your_Grade {
 	 * @see Sensei_Share_Your_Grade()
 	 * @return Main Sensei_Share_Your_Grade instance
 	 */
-	public static function instance ( $file, $version = '1.0.0' ) {
+	public static function instance ( $file, $version = '1.0.2' ) {
 		if ( is_null( self::$_instance ) )
 			self::$_instance = new self( $file, $version );
 		return self::$_instance;
