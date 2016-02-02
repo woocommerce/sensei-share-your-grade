@@ -1,5 +1,8 @@
 *** Sensei Share Your Grade Changelog ***
 
+2016.02.02 - version 1.0.3
+* Tweak - Ensures compatibility with Sensei 1.9
+
 2015.03.23 - version 1.0.2
 * Fix - Fixes an issue preventing the share buttons from displaying in Sensei 1.7
 
