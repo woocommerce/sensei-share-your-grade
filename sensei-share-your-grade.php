@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Sensei Share Your Grade
- * Plugin URI: http://woothemes.com/products/sensei-share-your-grade/
+ * Plugin URI: https://woocommerce.com/products/sensei-share-your-grade/
  * Description: Hi, I'm here to help you share your course results via Twitter, Facebook and more, once you've completed a course.
  * Author: WooThemes
  * Version: 1.0.3
- * Author URI: http://woothemes.com/
+ * Author URI: https://woocommerce.com/
  *
  * Requires at least: 3.8
  * Tested up to: 4.1
