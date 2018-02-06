@@ -240,7 +240,7 @@ final class Sensei_Share_Your_Grade {
 	public function enqueue_styles () {
 		global $woothemes_sensei;
 
-		wp_register_style( $this->_token . '-frontend', esc_url( $this->assets_url ) . 'css/frontend.css', $this->_version );
+		wp_register_style( $this->_token . '-frontend', esc_url( $this->assets_url ) . 'css/frontend.css', array(), $this->_version );
 		wp_enqueue_style( $this->_token . '-frontend' );
 	} // End enqueue_styles()
 
