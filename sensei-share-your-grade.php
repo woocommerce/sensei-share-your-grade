@@ -32,23 +32,13 @@ if ( ! function_exists( 'woothemes_queue_update' ) ) {
  */
 woothemes_queue_update( plugin_basename( __FILE__ ), '700f6f6786c764debcd5dfb789f5f506', 435830 );
 
-/**
- * Functions used by plugins
- */
-if ( ! class_exists( 'WooThemes_Sensei_Dependencies' ) ) {
-	require_once 'woo-includes/class-woothemes-sensei-dependencies.php';
+require_once dirname( __FILE__ ) . '/includes/class-sensei-share-your-grade-dependency-checker.php';
+
+if ( ! Sensei_Share_Your_Grade_Dependency_Checker::are_dependencies_met() ) {
+	return;
 }
 
-/**
- * Sensei Detection
- */
-if ( ! function_exists( 'is_sensei_active' ) ) {
-  function is_sensei_active() {
-  	return WooThemes_Sensei_Dependencies::sensei_active_check();
-  }
-}
-
-if ( is_sensei_active() ) Sensei_Share_Your_Grade();
+Sensei_Share_Your_Grade();
 
 /**
  * Returns the main instance of Sensei_Share_Your_Grade to prevent the need to use globals.
