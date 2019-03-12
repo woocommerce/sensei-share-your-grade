@@ -153,7 +153,7 @@ final class Sensei_Share_Your_Grade {
 	 * @return void
 	 */
 	public function load_localisation () {
-		load_plugin_textdomain( 'sensei-share-your-grade', false, dirname( SENSEI_SHARE_YOUR_GRADE_BASENAME ) . '/languages/' );
+		load_plugin_textdomain( 'sensei-share-your-grade', false, dirname( SENSEI_SHARE_YOUR_GRADE_PLUGIN_BASENAME ) . '/languages/' );
 	} // End load_localisation()
 
 	/**
@@ -167,7 +167,7 @@ final class Sensei_Share_Your_Grade {
 		$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
 
 		load_textdomain( $domain, WP_LANG_DIR . '/' . $domain . '/' . $domain . '-' . $locale . '.mo' );
-		load_plugin_textdomain( $domain, FALSE, dirname( SENSEI_SHARE_YOUR_GRADE_BASENAME ) . '/languages/' );
+		load_plugin_textdomain( $domain, FALSE, dirname( SENSEI_SHARE_YOUR_GRADE_PLUGIN_BASENAME ) . '/languages/' );
 	} // End load_plugin_textdomain()
 
 	/**

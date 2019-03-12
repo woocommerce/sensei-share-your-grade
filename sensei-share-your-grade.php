@@ -38,7 +38,7 @@ if ( ! Sensei_Share_Your_Grade_Dependency_Checker::are_dependencies_met() ) {
 	return;
 }
 
-define( 'SENSEI_SHARE_YOUR_GRADE_BASENAME', plugin_basename( __FILE__ ) );
+define( 'SENSEI_SHARE_YOUR_GRADE_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
 require_once dirname( __FILE__ ) . '/includes/class-sensei-share-your-grade.php';
 
