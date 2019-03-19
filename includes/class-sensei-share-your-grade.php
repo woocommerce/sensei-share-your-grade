@@ -143,19 +143,19 @@ final class Sensei_Share_Your_Grade {
 		// Set up the data we will need for our output.
 		add_action( 'sensei_course_results_content_inside_after', array( $instance, 'setup_course_data_before_output' ), 20 );
 		// TODO - change to use more appropriate hooks when available.
-		add_action( 'sensei_lesson_single_meta', array( $instance, 'setup_lesson_data_before_output' ), 20 );
+		add_action( 'sensei_single_lesson_content_inside_after', array( $instance, 'setup_lesson_data_before_output' ), 20 );
 		add_action( 'sensei_quiz_back_link', array( $instance, 'setup_lesson_data_before_output' ), 4 );
 
 		// Display a message when viewing course results.
 		add_action( 'sensei_course_results_content_inside_after', array( $instance, 'output_sharing_message' ), 30 );
 		// TODO - change to use more appropriate hooks when available.
-		add_action( 'sensei_lesson_single_meta', array( $instance, 'output_sharing_message' ), 30 );
+		add_action( 'sensei_single_lesson_content_inside_after', array( $instance, 'output_sharing_message' ), 30 );
 		add_action( 'sensei_quiz_back_link', array( $instance, 'output_sharing_message' ), 5 );
 
 		// Display sharing buttons when viewing course results.
 		add_action( 'sensei_course_results_content_inside_after', array( $instance, 'output_sharing_buttons' ), 40 );
 		// TODO - change to use more appropriate hooks when available.
-		add_action( 'sensei_lesson_single_meta', array( $instance, 'output_sharing_buttons' ), 30 );
+		add_action( 'sensei_single_lesson_content_inside_after', array( $instance, 'output_sharing_buttons' ), 30 );
 		add_action( 'sensei_quiz_back_link', array( $instance, 'output_sharing_buttons' ), 5 );
 
 		// Conditionally output the JavaScript for the Google Plus button, if it is present.
