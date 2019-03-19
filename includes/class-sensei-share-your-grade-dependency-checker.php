@@ -88,7 +88,7 @@ class Sensei_Share_Your_Grade_Dependency_Checker {
 		}
 
 		// translators: %1$s is version of PHP that this plugin requires; %2$s is the version of PHP WordPress is running on.
-		$message = sprintf( __( '<strong>Sensei Share Your Grade</strong> requires PHP version %1$s but you are running %2$s.', 'sensei-share-your-grade' ), self::MINIMUM_PHP_VERSION, phpversion() );
+		$message = sprintf( __( '<strong>Sensei Share Your Grade</strong> requires a minimum PHP version of %1$s, but you are running %2$s.', 'sensei-share-your-grade' ), self::MINIMUM_PHP_VERSION, phpversion() );
 		echo '<div class="error"><p>';
 		echo wp_kses( $message, array( 'strong' => array() ) );
 		$php_update_url = 'https://wordpress.org/support/update-php/';
