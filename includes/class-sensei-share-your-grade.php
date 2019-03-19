@@ -90,14 +90,6 @@ final class Sensei_Share_Your_Grade {
 	private $_has_output_fb_sdk;
 
 	/**
-	 * Whether or not we've displayed a Google Plus button.
-	 * @var     boolean
-	 * @access  private
-	 * @since   1.0.0
-	 */
-	private $_has_googleplus_button;
-
-	/**
 	 * Constructor function.
 	 * @access  public
 	 * @since   1.0.0
@@ -111,7 +103,6 @@ final class Sensei_Share_Your_Grade {
 		$this->assets_url = esc_url( trailingslashit( plugins_url( '/assets/', SENSEI_SHARE_YOUR_GRADE_PLUGIN_FILE ) ) );
 
 		$this->_has_output_fb_sdk = false;
-		$this->_has_googleplus_button = false;
 
 		register_activation_hook( SENSEI_SHARE_YOUR_GRADE_PLUGIN_FILE, array( $this, 'install' ) );
 
@@ -154,9 +145,6 @@ final class Sensei_Share_Your_Grade {
 		add_action( 'sensei_course_results_content_inside_after', array( $instance, 'output_sharing_buttons' ), 40 );
 		add_action( 'sensei_single_lesson_content_inside_after', array( $instance, 'output_sharing_buttons' ), 30 );
 		add_action( 'sensei_quiz_back_link', array( $instance, 'output_sharing_buttons' ), 5 );
-
-		// Conditionally output the JavaScript for the Google Plus button, if it is present.
-		add_action( 'wp_footer', array( $instance, 'maybe_render_googleplus_js' ) );
 
 		// Load frontend CSS
 		add_action( 'wp_enqueue_scripts', array( $instance, 'enqueue_styles' ), 10 );
@@ -464,69 +452,6 @@ final class Sensei_Share_Your_Grade {
 	} // End render_facebook_button()
 
 	/**
-	 * Return a formatted Google Plus sharing button.
-	 * @access  public
-	 * @since   1.0.0
-	 * @return  string
-	 */
-	public function render_googleplus_button ( $message = '', $args = array() ) {
-		$this->_has_googleplus_button = true;
-
-		$defaults = array(
-			'href' => $this->get_course_url(),
-			'annotation' => 'none',
-			'height' => '', // Small: 15. Large: 24.
-			'width' => '' // An integer value.
-		);
-
-		$args = (array)apply_filters( 'sensei_share_your_grade_googleplus_button_args', $args );
-		$args = wp_parse_args( $args, $defaults );
-
-		// Make sure we have args. Otherwise, don't output.
-		if ( 0 < count( $args ) ) {
-			// If an argument is not in the defaults, remove it.
-			foreach ( $args as $k => $v ) {
-				if ( ! in_array( $k, array_keys( $defaults ) ) ) {
-					unset( $args[$k] );
-				}
-			}
-
-			// Prepare the "data" attributes.
-			$atts = '';
-			foreach ( $args as $k => $v ) {
-				if ( '' != $v ) {
-					// Make sure height and width are always integers.
-					if ( 'height' == $v || 'width' == $v ) {
-						$v = intval( $v );
-					}
-					$atts .= ' data-' . $k . '="' . esc_attr( $v ) . '"';
-				}
-			}
-
-			$html = '<div class="g-plus" data-action="share" ' . $atts . '></div>' . "\n";
-
-			echo $html;
-		}
-	} // End render_googleplus_button()
-
-	/**
-	 * If a Google Plus button is present, output it's JavaScript in the footer.
-	 * @access  public
-	 * @since   1.0.0
-	 * @return  string
-	 */
-	public function maybe_render_googleplus_js () {
-		if ( true !== $this->_has_googleplus_button ) return;
-		echo '<script type="text/javascript">
-				  (function() {
-				    var po = document.createElement(\'script\'); po.type = \'text/javascript\'; po.async = true;
-				    po.src = \'https://apis.google.com/js/platform.js\';
-				    var s = document.getElementsByTagName(\'script\')[0]; s.parentNode.insertBefore(po, s);
-				  })();
-				</script>' . "\n";
-	} // End maybe_render_googleplus_js()
-
-	/**
 	 * Return a formatted LinkedIn sharing button.
 	 * @access  public
 	 * @since   1.0.0
@@ -701,7 +626,7 @@ final class Sensei_Share_Your_Grade {
 	 * @return  string
 	 */
 	private function _get_supported_networks () {
-		return (array)apply_filters( 'sensei_share_your_grade_supported_networks', array( 'twitter' => 'method', 'facebook' => 'method', 'googleplus' => 'method', 'linkedin' => 'method' ) );
+		return (array)apply_filters( 'sensei_share_your_grade_supported_networks', array( 'twitter' => 'method', 'facebook' => 'method', 'linkedin' => 'method' ) );
 	} // End _get_supported_networks()
 
 	/**
