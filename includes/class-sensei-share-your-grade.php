@@ -103,48 +103,67 @@ final class Sensei_Share_Your_Grade {
 	 * @since   1.0.0
 	 * @return  void
 	 */
-	public function __construct ( $file, $version = '1.0.0' ) {
+	public function __construct () {
 		$this->_token = 'sensei-share-your-grade';
-		$this->_version = $version;
+		$this->_version = SENSEI_SHARE_YOUR_GRADE_VERSION;
 
-		$this->file = $file;
-		$this->dir = dirname( $this->file );
-		$this->assets_dir = trailingslashit( $this->dir ) . 'assets';
-		$this->assets_url = esc_url( trailingslashit( plugins_url( '/assets/', $this->file ) ) );
+		$this->assets_dir = trailingslashit( dirname( SENSEI_SHARE_YOUR_GRADE_PLUGIN_FILE ) ) . 'assets';
+		$this->assets_url = esc_url( trailingslashit( plugins_url( '/assets/', SENSEI_SHARE_YOUR_GRADE_PLUGIN_FILE ) ) );
 
 		$this->_has_output_fb_sdk = false;
 		$this->_has_googleplus_button = false;
 
-		register_activation_hook( $this->file, array( $this, 'install' ) );
+		register_activation_hook( SENSEI_SHARE_YOUR_GRADE_PLUGIN_FILE, array( $this, 'install' ) );
 
 		$this->load_plugin_textdomain();
-		add_action( 'init', array( $this, 'load_localisation' ), 0 );
-
-		// Set up the data we will need for our output.
-		add_action( 'sensei_course_results_content_inside_after', array( $this, 'setup_course_data_before_output' ), 20 );
-		// TODO - change to use more appropriate hooks when available.
-		add_action( 'sensei_lesson_single_meta', array( $this, 'setup_lesson_data_before_output' ), 20 );
-		add_action( 'sensei_quiz_back_link', array( $this, 'setup_lesson_data_before_output' ), 4 );
-
-		// Display a message when viewing course results.
-		add_action( 'sensei_course_results_content_inside_after', array( $this, 'output_sharing_message' ), 30 );
-		// TODO - change to use more appropriate hooks when available.
-		add_action( 'sensei_lesson_single_meta', array( $this, 'output_sharing_message' ), 30 );
-		add_action( 'sensei_quiz_back_link', array( $this, 'output_sharing_message' ), 5 );
-
-		// Display sharing buttons when viewing course results.
-		add_action( 'sensei_course_results_content_inside_after', array( $this, 'output_sharing_buttons' ), 40 );
-		// TODO - change to use more appropriate hooks when available.
-		add_action( 'sensei_lesson_single_meta', array( $this, 'output_sharing_buttons' ), 30 );
-		add_action( 'sensei_quiz_back_link', array( $this, 'output_sharing_buttons' ), 5 );
-
-		// Conditionally output the JavaScript for the Google Plus button, if it is present.
-		add_action( 'wp_footer', array( $this, 'maybe_render_googleplus_js' ) );
-
-		// Load frontend CSS
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ), 10 );
 
 	} // End __construct()
+
+	/**
+	 * Set up all actions and filters.
+	 */
+	public static function init() {
+		$instance = self::instance();
+		add_action( 'init', array( $instance, 'load_localisation' ), 0 );
+
+		if ( ! Sensei_Share_Your_Grade_Dependency_Checker::are_plugin_dependencies_met() ) {
+			return;
+		}
+
+		/**
+		 * Returns the main instance of Sensei_Share_Your_Grade to prevent the need to use globals.
+		 *
+		 * @since  1.0.0
+		 * @return object Sensei_Share_Your_Grade
+		 */
+		function Sensei_Share_Your_Grade() {
+			return Sensei_Share_Your_Grade::instance();
+		} // End Sensei_Share_Your_Grade()
+
+		// Set up the data we will need for our output.
+		add_action( 'sensei_course_results_content_inside_after', array( $instance, 'setup_course_data_before_output' ), 20 );
+		// TODO - change to use more appropriate hooks when available.
+		add_action( 'sensei_lesson_single_meta', array( $instance, 'setup_lesson_data_before_output' ), 20 );
+		add_action( 'sensei_quiz_back_link', array( $instance, 'setup_lesson_data_before_output' ), 4 );
+
+		// Display a message when viewing course results.
+		add_action( 'sensei_course_results_content_inside_after', array( $instance, 'output_sharing_message' ), 30 );
+		// TODO - change to use more appropriate hooks when available.
+		add_action( 'sensei_lesson_single_meta', array( $instance, 'output_sharing_message' ), 30 );
+		add_action( 'sensei_quiz_back_link', array( $instance, 'output_sharing_message' ), 5 );
+
+		// Display sharing buttons when viewing course results.
+		add_action( 'sensei_course_results_content_inside_after', array( $instance, 'output_sharing_buttons' ), 40 );
+		// TODO - change to use more appropriate hooks when available.
+		add_action( 'sensei_lesson_single_meta', array( $instance, 'output_sharing_buttons' ), 30 );
+		add_action( 'sensei_quiz_back_link', array( $instance, 'output_sharing_buttons' ), 5 );
+
+		// Conditionally output the JavaScript for the Google Plus button, if it is present.
+		add_action( 'wp_footer', array( $instance, 'maybe_render_googleplus_js' ) );
+
+		// Load frontend CSS
+		add_action( 'wp_enqueue_scripts', array( $instance, 'enqueue_styles' ), 10 );
+	}
 
 	/**
 	 * Load the plugin's localisation file.
@@ -742,13 +761,14 @@ final class Sensei_Share_Your_Grade {
 	 * @since 1.0.0
 	 * @static
 	 * @see Sensei_Share_Your_Grade()
-	 * @return Main Sensei_Share_Your_Grade instance
+	 * @return Sensei_Share_Your_Grade instance
 	 */
-	public static function instance ( $file, $version = '1.0.2' ) {
-		if ( is_null( self::$_instance ) )
-			self::$_instance = new self( $file, $version );
+	public static function instance() {
+		if ( is_null( self::$_instance ) ) {
+			self::$_instance = new self();
+		}
 		return self::$_instance;
-	} // End instance()
+	}
 
 	/**
 	 * Cloning is forbidden.

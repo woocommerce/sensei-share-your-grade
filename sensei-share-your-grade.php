@@ -10,6 +10,7 @@
  *
  * Requires at least: 3.8
  * Tested up to: 4.1
+ * Requires PHP: 5.6
  *
  * Text Domain: sensei-share-your-grade
  * Domain Path: /languages/
@@ -19,26 +20,23 @@
  * @author Matty Cohen
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+define( 'SENSEI_SHARE_YOUR_GRADE_VERSION', '1.0.3' );
+define( 'SENSEI_SHARE_YOUR_GRADE_PLUGIN_FILE', __FILE__ );
+define( 'SENSEI_SHARE_YOUR_GRADE_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
 require_once dirname( __FILE__ ) . '/includes/class-sensei-share-your-grade-dependency-checker.php';
 
-if ( ! Sensei_Share_Your_Grade_Dependency_Checker::are_dependencies_met() ) {
+if ( ! Sensei_Share_Your_Grade_Dependency_Checker::are_system_dependencies_met() ) {
 	return;
 }
 
-define( 'SENSEI_SHARE_YOUR_GRADE_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
-
 require_once dirname( __FILE__ ) . '/includes/class-sensei-share-your-grade.php';
 
-Sensei_Share_Your_Grade();
+// Load the plugin after all the other plugins have loaded.
+add_action( 'plugins_loaded', array( 'Sensei_Share_Your_Grade', 'init' ), 5 );
 
-/**
- * Returns the main instance of Sensei_Share_Your_Grade to prevent the need to use globals.
- *
- * @since  1.0.0
- * @return object Sensei_Share_Your_Grade
- */
-function Sensei_Share_Your_Grade() {
-	return Sensei_Share_Your_Grade::instance( __FILE__, '1.0.3' );
-} // End Sensei_Share_Your_Grade()
+Sensei_Share_Your_Grade::instance();
