@@ -6,6 +6,7 @@
  * Author: Automattic
  * Version: 1.0.3
  * Author URI: https://automattic.com/
+ * Woo: 435830:700f6f6786c764debcd5dfb789f5f506
  *
  * Requires at least: 3.8
  * Tested up to: 4.1
@@ -19,18 +20,6 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
-
-/**
- * Required functions
- */
-if ( ! function_exists( 'woothemes_queue_update' ) ) {
-	require_once( 'woo-includes/woo-functions.php' );
-}
-
-/**
- * Plugin updates
- */
-woothemes_queue_update( plugin_basename( __FILE__ ), '700f6f6786c764debcd5dfb789f5f506', 435830 );
 
 require_once dirname( __FILE__ ) . '/includes/class-sensei-share-your-grade-dependency-checker.php';
 
