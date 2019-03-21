@@ -4,8 +4,8 @@
   "description": "Let your students strut their stuff (and promote your course) by sharing their progress on social media.",
   "main": "sensei-share-your-grade.php",
   "scripts": {
-    "dev": "NODE_ENV=dev gulp build",
-    "prod": "NODE_ENV=prod gulp build",
+    "dev": "NODE_ENV=dev gulp package",
+    "prod": "NODE_ENV=prod gulp package",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

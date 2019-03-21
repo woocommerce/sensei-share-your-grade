@@ -4,6 +4,8 @@ const sass = require( 'gulp-sass' );
 const wpPot = require( 'gulp-wp-pot' );
 const zip = require( 'gulp-zip' );
 
+const buildDir = 'build/sensei-share-your-grade';
+
 function clean() {
 	return del( [ 'build' ] );
 }
@@ -11,28 +13,30 @@ function clean() {
 function css() {
 	return src( 'assets/css/*.scss')
 		.pipe( sass() )
-		.pipe( dest( 'build/sensei-share-your-grade/assets/css' ) )
+		.pipe( sass( { outputStyle: 'expanded' } ) )
+		.pipe( dest( 'assets/css' ) )
+		.pipe( dest( buildDir + '/assets/css' ) )
 }
 
 function cssMinify() {
 	return src( 'assets/css/*.scss')
 		.pipe( sass( { outputStyle: 'compressed' } ) )
-		.pipe( dest( 'build/sensei-share-your-grade/assets/css' ) )
+		.pipe( dest( buildDir + '/assets/css' ) )
 }
 
 function docs() {
 	return src( [ 'changelog.txt', 'README.md' ] )
-		.pipe( dest( 'build/sensei-share-your-grade' ) )
+		.pipe( dest( buildDir ) )
 }
 
 function languages() {
 	return src( 'languages/*.*', { base: '.' } )
-		.pipe( dest( 'build/sensei-share-your-grade' ) );
+		.pipe( dest( buildDir ) );
 }
 
 function php() {
 	return src( [ 'sensei-share-your-grade.php', 'includes/**/*.php' ], { base: '.' } )
-		.pipe( dest( 'build/sensei-share-your-grade' ) )
+		.pipe( dest( buildDir ) )
 }
 
 function pot() {
@@ -44,23 +48,22 @@ function pot() {
 		.pipe( dest( 'languages/sensei-share-your-grade.pot' ) );
 }
 
-function zipPackage() {
-	return src( 'build/sensei-share-your-grade' + '/**/*', { base: 'build/sensei-share-your-grade' + '/..' } )
-		.pipe( zip( 'build/sensei-share-your-grade.zip' ) )
+function zipFiles() {
+	return src( buildDir + '/**/*', { base: buildDir + '/..' } )
+		.pipe( zip( buildDir + '.zip' ) )
 		.pipe( dest( '.' ) );
 }
 
 exports.clean = clean;
 exports.css = css;
-exports.cssMinify = cssMinify;
 exports.docs = docs;
 exports.languages = languages;
 exports.php = php;
 exports.pot = pot;
-exports.zipPackage = zipPackage;
+exports.zipFiles = zipFiles;
 
 if ( process.env.NODE_ENV === 'dev' ) {
-	exports.build = series(
+	exports.package = series(
 		clean,
 		parallel(
 			css,
@@ -68,10 +71,10 @@ if ( process.env.NODE_ENV === 'dev' ) {
 			series( pot, languages ),
 			php,
 		),
-		zipPackage,
+		zipFiles,
 	);
 } else {
-	exports.build = series(
+	exports.package = series(
 		clean,
 		parallel(
 			cssMinify,
@@ -79,6 +82,6 @@ if ( process.env.NODE_ENV === 'dev' ) {
 			series( pot, languages ),
 			php,
 		),
-		zipPackage,
+		zipFiles,
 	);
 }
