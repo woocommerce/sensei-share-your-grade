@@ -1,64 +1,69 @@
-# Copyright (C) 2015 Sensei Share Your Grade
+# Copyright (C) 2019 Sensei Share Your Grade
 # This file is distributed under the same license as the Sensei Share Your Grade package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Sensei Share Your Grade 1.0.1\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tag/sensei-share-your-grade\n"
-"POT-Creation-Date: 2015-02-02 11:10:07+00:00\n"
+"Project-Id-Version: Sensei Share Your Grade\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: sensei-share-your-grade.php:386
+#. translators: %1$s is version of PHP that this plugin requires; %2$s is the version of PHP WordPress is running on.
+#: includes/class-sensei-share-your-grade-dependency-checker.php:91
+msgid "<strong>Sensei Share Your Grade</strong> requires a minimum PHP version of %1$s, but you are running %2$s."
+msgstr ""
+
+#: includes/class-sensei-share-your-grade-dependency-checker.php:101
+msgid "Learn more about updating PHP"
+msgstr ""
+
+#. translators: accessibility text
+#: includes/class-sensei-share-your-grade-dependency-checker.php:103
+msgid "(opens in a new tab)"
+msgstr ""
+
+#. translators: %1$s is the minimum version number of Sensei that is required.
+#: includes/class-sensei-share-your-grade-dependency-checker.php:122
+msgid "<strong>Sensei Share Your Grade</strong> requires that the plugin <strong>Sensei</strong> (minimum version: <strong>%1$s</strong>) is installed and activated."
+msgstr ""
+
+#: includes/class-sensei-share-your-grade.php:294
 msgid "Share your progress!"
 msgstr ""
 
-#: sensei-share-your-grade.php:387
+#: includes/class-sensei-share-your-grade.php:295
 msgid "Go on, get social! Share your progress with your friends and family on social media."
 msgstr ""
 
-#: sensei-share-your-grade.php:463
+#: includes/class-sensei-share-your-grade.php:371
 msgid "Tweet your Grade"
 msgstr ""
 
-#: sensei-share-your-grade.php:665
+#: includes/class-sensei-share-your-grade.php:512
+msgid "I just %%STATUS%% %%POST_NAME%%, over at %%SITE_NAME%%! Take the course, today! %%COURSE_PERMALINK%%"
+msgstr ""
+
+#: includes/class-sensei-share-your-grade.php:522
 msgid "I just %%STATUS%% %%POST_NAME%%, over at %%SITE_NAME%% with %%PERCENTAGE%%%! Take the course, today! %%COURSE_PERMALINK%%"
 msgstr ""
 
-#: sensei-share-your-grade.php:675
+#: includes/class-sensei-share-your-grade.php:532
 msgid "Cheer me on as I work to pass the %%POST_NAME%% course, over at %%SITE_NAME%%! Take the course with me, today! %%COURSE_PERMALINK%%"
 msgstr ""
 
-#: sensei-share-your-grade.php:746 sensei-share-your-grade.php:767
+#: includes/class-sensei-share-your-grade.php:619, includes/class-sensei-share-your-grade.php:643
 msgid "passed"
 msgstr ""
 
-#: sensei-share-your-grade.php:748 sensei-share-your-grade.php:769
+#: includes/class-sensei-share-your-grade.php:621, includes/class-sensei-share-your-grade.php:646
 msgid "failed"
 msgstr ""
 
-#: sensei-share-your-grade.php:796 sensei-share-your-grade.php:805
-msgid "Cheatin&#8217; huh?"
-msgstr ""
-#. Plugin Name of the plugin/theme
-msgid "Sensei Share Your Grade"
-msgstr ""
-
-#. Plugin URI of the plugin/theme
-msgid "http://woothemes.com/products/sensei-share-your-grade/"
-msgstr ""
-
-#. Description of the plugin/theme
-msgid "Hi, I'm here to help you share your course results via Twitter, Facebook and more, once you've completed a course."
-msgstr ""
-
-#. Author of the plugin/theme
-msgid "WooThemes"
-msgstr ""
-
-#. Author URI of the plugin/theme
-msgid "http://woothemes.com/"
+#: includes/class-sensei-share-your-grade.php:641
+msgid "completed"
 msgstr ""
