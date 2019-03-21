@@ -2,3 +2,5 @@
 *.sass-cache
 *config.codekit
 *.codekit-cache
+build
+node_modules
