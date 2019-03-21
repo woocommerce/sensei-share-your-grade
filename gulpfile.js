@@ -4,6 +4,8 @@ const sass = require( 'gulp-sass' );
 const wpPot = require( 'gulp-wp-pot' );
 const zip = require( 'gulp-zip' );
 
+const buildDir = 'build/sensei-share-your-grade';
+
 function clean() {
 	return del( [ 'build' ] );
 }
@@ -11,28 +13,28 @@ function clean() {
 function css() {
 	return src( 'assets/css/*.scss')
 		.pipe( sass() )
-		.pipe( dest( 'build/sensei-share-your-grade/assets/css' ) )
+		.pipe( dest( buildDir + '/assets/css' ) )
 }
 
 function cssMinify() {
 	return src( 'assets/css/*.scss')
 		.pipe( sass( { outputStyle: 'compressed' } ) )
-		.pipe( dest( 'build/sensei-share-your-grade/assets/css' ) )
+		.pipe( dest( buildDir + '/assets/css' ) )
 }
 
 function docs() {
 	return src( [ 'changelog.txt', 'README.md' ] )
-		.pipe( dest( 'build/sensei-share-your-grade' ) )
+		.pipe( dest( buildDir ) )
 }
 
 function languages() {
 	return src( 'languages/*.*', { base: '.' } )
-		.pipe( dest( 'build/sensei-share-your-grade' ) );
+		.pipe( dest( buildDir ) );
 }
 
 function php() {
 	return src( [ 'sensei-share-your-grade.php', 'includes/**/*.php' ], { base: '.' } )
-		.pipe( dest( 'build/sensei-share-your-grade' ) )
+		.pipe( dest( buildDir ) )
 }
 
 function pot() {
@@ -45,8 +47,8 @@ function pot() {
 }
 
 function zipFiles() {
-	return src( 'build/sensei-share-your-grade' + '/**/*', { base: 'build/sensei-share-your-grade' + '/..' } )
-		.pipe( zip( 'build/sensei-share-your-grade.zip' ) )
+	return src( buildDir + '/**/*', { base: buildDir + '/..' } )
+		.pipe( zip( buildDir + '.zip' ) )
 		.pipe( dest( '.' ) );
 }
 
