@@ -44,7 +44,7 @@ function pot() {
 		.pipe( dest( 'languages/sensei-share-your-grade.pot' ) );
 }
 
-function zipPackage() {
+function zipFiles() {
 	return src( 'build/sensei-share-your-grade' + '/**/*', { base: 'build/sensei-share-your-grade' + '/..' } )
 		.pipe( zip( 'build/sensei-share-your-grade.zip' ) )
 		.pipe( dest( '.' ) );
@@ -52,15 +52,14 @@ function zipPackage() {
 
 exports.clean = clean;
 exports.css = css;
-exports.cssMinify = cssMinify;
 exports.docs = docs;
 exports.languages = languages;
 exports.php = php;
 exports.pot = pot;
-exports.zipPackage = zipPackage;
+exports.zipFiles = zipFiles;
 
 if ( process.env.NODE_ENV === 'dev' ) {
-	exports.build = series(
+	exports.package = series(
 		clean,
 		parallel(
 			css,
@@ -68,10 +67,10 @@ if ( process.env.NODE_ENV === 'dev' ) {
 			series( pot, languages ),
 			php,
 		),
-		zipPackage,
+		zipFiles,
 	);
 } else {
-	exports.build = series(
+	exports.package = series(
 		clean,
 		parallel(
 			cssMinify,
@@ -79,6 +78,6 @@ if ( process.env.NODE_ENV === 'dev' ) {
 			series( pot, languages ),
 			php,
 		),
-		zipPackage,
+		zipFiles,
 	);
 }
