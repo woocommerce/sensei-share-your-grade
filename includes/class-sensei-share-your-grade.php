@@ -34,30 +34,6 @@ final class Sensei_Share_Your_Grade {
 	private $_version;
 
 	/**
-	 * The main plugin file.
-	 * @var     string
-	 * @access  private
-	 * @since   1.0.0
-	 */
-	private $file;
-
-	/**
-	 * The main plugin directory.
-	 * @var     string
-	 * @access  private
-	 * @since   1.0.0
-	 */
-	private $dir;
-
-	/**
-	 * The plugin assets directory.
-	 * @var     string
-	 * @access  private
-	 * @since   1.0.0
-	 */
-	private $assets_dir;
-
-	/**
 	 * The plugin assets URL.
 	 * @var     string
 	 * @access  private
@@ -96,12 +72,9 @@ final class Sensei_Share_Your_Grade {
 	 * @return  void
 	 */
 	public function __construct () {
-		$this->_token = 'sensei-share-your-grade';
-		$this->_version = SENSEI_SHARE_YOUR_GRADE_VERSION;
-
-		$this->assets_dir = trailingslashit( dirname( SENSEI_SHARE_YOUR_GRADE_PLUGIN_FILE ) ) . 'assets';
-		$this->assets_url = esc_url( trailingslashit( plugins_url( '/assets/', SENSEI_SHARE_YOUR_GRADE_PLUGIN_FILE ) ) );
-
+		$this->_token             = 'sensei-share-your-grade';
+		$this->_version           = SENSEI_SHARE_YOUR_GRADE_VERSION;
+		$this->assets_url         = esc_url( trailingslashit( plugins_url( '/assets/', SENSEI_SHARE_YOUR_GRADE_PLUGIN_FILE ) ) );
 		$this->_has_output_fb_sdk = false;
 
 		register_activation_hook( SENSEI_SHARE_YOUR_GRADE_PLUGIN_FILE, array( $this, 'install' ) );
