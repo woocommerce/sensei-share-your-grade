@@ -2,14 +2,14 @@
 /**
  * Plugin Name: Sensei Share Your Grade
  * Plugin URI: https://woocommerce.com/products/sensei-share-your-grade/
- * Description: Hi, I'm here to help you share your course results via Twitter, Facebook and more, once you've completed a course.
+ * Description: Let your students strut their stuff (and promote your course) by sharing their progress on social media.
  * Author: Automattic
  * Version: 2.0.0-beta.1
  * Author URI: https://automattic.com/
  * Woo: 435830:700f6f6786c764debcd5dfb789f5f506
  *
  * Requires at least: 3.8
- * Tested up to: 4.1
+ * Tested up to: 5.1
  * Requires PHP: 5.6
  *
  * Text Domain: sensei-share-your-grade
