@@ -1,0 +1,35 @@
+{
+  "name": "sensei-share-your-grade",
+  "version": "2.0.0",
+  "description": "Let your students strut their stuff (and promote your course) by sharing their progress on social media.",
+  "main": "sensei-share-your-grade.php",
+  "scripts": {
+    "dev": "NODE_ENV=dev gulp build",
+    "prod": "NODE_ENV=prod gulp build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/woocommerce/sensei-share-your-grade.git"
+  },
+  "keywords": [
+    "sensei",
+    "twitter",
+    "facebook",
+    "linkedin",
+    "social media"
+  ],
+  "author": "Automattic",
+  "license": "GPL-2.0+",
+  "bugs": {
+    "url": "https://github.com/woocommerce/sensei-share-your-grade/issues"
+  },
+  "homepage": "https://github.com/woocommerce/sensei-share-your-grade#readme",
+  "devDependencies": {
+    "del": "^4.0.0",
+    "gulp": "^4.0.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-wp-pot": "^2.3.4",
+    "gulp-zip": "^4.2.0"
+  }
+}
