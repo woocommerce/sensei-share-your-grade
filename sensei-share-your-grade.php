@@ -4,11 +4,11 @@
  * Plugin URI: https://woocommerce.com/products/sensei-share-your-grade/
  * Description: Let your students strut their stuff (and promote your course) by sharing their progress on social media.
  * Author: Automattic
- * Version: 2.0.0-beta.1
+ * Version: 2.0.0
  * Author URI: https://automattic.com/
  * Woo: 435830:700f6f6786c764debcd5dfb789f5f506
  *
- * Requires at least: 3.8
+ * Requires at least: 4.1
  * Tested up to: 5.1
  * Requires PHP: 5.6
  *
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'SENSEI_SHARE_YOUR_GRADE_VERSION', '2.0.0-beta.1' );
+define( 'SENSEI_SHARE_YOUR_GRADE_VERSION', '2.0.0' );
 define( 'SENSEI_SHARE_YOUR_GRADE_PLUGIN_FILE', __FILE__ );
 define( 'SENSEI_SHARE_YOUR_GRADE_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
