@@ -8,7 +8,7 @@
  * Author URI: https://automattic.com/
  * Woo: 435830:700f6f6786c764debcd5dfb789f5f506
  *
- * Requires at least: 3.8
+ * Requires at least: 4.1
  * Tested up to: 5.1
  * Requires PHP: 5.6
  *
