@@ -99,25 +99,3 @@ msgstr "sikertelen"
 #: includes/class-sensei-share-your-grade.php:641
 msgid "completed"
 msgstr ""
-
-#~ msgid "Cheatin&#8217; huh?"
-#~ msgstr "Csak nem csalunk?"
-
-#~ msgid "Sensei Share Your Grade"
-#~ msgstr "Sensei Oszd Meg Eredményed"
-
-#~ msgid "http://woothemes.com/products/sensei-share-your-grade/"
-#~ msgstr "http://woothemes.com/products/sensei-share-your-grade/"
-
-#~ msgid ""
-#~ "Hi, I'm here to help you share your course results via Twitter, Facebook "
-#~ "and more, once you've completed a course."
-#~ msgstr ""
-#~ "Helló! Segítek megosztani a tanfolyamon elért eredményeidet Twitter-en, "
-#~ "Facebook-on és máshol."
-
-#~ msgid "WooThemes"
-#~ msgstr "WooThemes"
-
-#~ msgid "http://woothemes.com/"
-#~ msgstr "http://woothemes.com/"
