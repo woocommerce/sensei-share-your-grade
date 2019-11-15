@@ -1,0 +1,101 @@
+# Copyright (C) 2015 Sensei Share Your Grade
+# This file is distributed under the same license as the Sensei Share Your Grade package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Sensei Share Your Grade 2.0.0\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/sensei-share-your-grade\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2019-03-23 12:44+0100\n"
+"Last-Translator: \n"
+"Language-Team: Sensei HUN<info@aroland.hu>\n"
+"Language: hu_HU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. translators: %1$s is version of PHP that this plugin requires; %2$s is the version of PHP WordPress is running on.
+#: includes/class-sensei-share-your-grade-dependency-checker.php:91
+msgid ""
+"<strong>Sensei Share Your Grade</strong> requires a minimum PHP version of "
+"%1$s, but you are running %2$s."
+msgstr ""
+"A <strong>Sensei Eredmények Megosztása</strong> minimális PHP igénye %1$s, "
+"azonban a jelenlegi verzió: %2$s."
+
+#: includes/class-sensei-share-your-grade-dependency-checker.php:101
+msgid "Learn more about updating PHP"
+msgstr "További információk a PHP frissítéséről"
+
+#. translators: accessibility text
+#: includes/class-sensei-share-your-grade-dependency-checker.php:103
+msgid "(opens in a new tab)"
+msgstr "(új fülön nyílik meg)"
+
+#. translators: %1$s is the minimum version number of Sensei that is required.
+#: includes/class-sensei-share-your-grade-dependency-checker.php:122
+msgid ""
+"<strong>Sensei Share Your Grade</strong> requires that the plugin "
+"<strong>Sensei</strong> (minimum version: <strong>%1$s</strong>) is "
+"installed and activated."
+msgstr ""
+"A <strong>Sensei Eredmények Megosztása</strong> működéséhez szükséges a "
+"<strong>Sensei</strong> bővítmény (minimum verzió: <strong>%1$s</strong>) "
+"telepítése és aktiválása."
+
+#: includes/class-sensei-share-your-grade.php:294
+msgid "Share your progress!"
+msgstr "Oszd meg az előrehaladásodat!"
+
+#: includes/class-sensei-share-your-grade.php:295
+msgid ""
+"Go on, get social! Share your progress with your friends and family on "
+"social media."
+msgstr ""
+"Gyerünk, légy közösségi! Oszd meg előrehaladásodat barátaiddal és "
+"családoddal a közösségi hálón."
+
+#: includes/class-sensei-share-your-grade.php:371
+msgid "Tweet your Grade"
+msgstr "Tweet-eld az osztályzatodat"
+
+#: includes/class-sensei-share-your-grade.php:512
+msgid ""
+"I just %%STATUS%% %%POST_NAME%%, over at %%SITE_NAME%%! Take the course, "
+"today! %%COURSE_PERMALINK%%"
+msgstr ""
+"Ezt nézd: %%STATUS%% %%POST_NAME%%, ezen az oldalon: %%SITE_NAME%%! Kezdd el "
+"Te is a tanfolyamot még MA! %%COURSE_PERMALINK%%"
+
+#: includes/class-sensei-share-your-grade.php:522
+msgid ""
+"I just %%STATUS%% %%POST_NAME%%, over at %%SITE_NAME%% with %%PERCENTAGE%%%! "
+"Take the course, today! %%COURSE_PERMALINK%%"
+msgstr ""
+"Ezt nézd: %%STATUS%% %%POST_NAME%%, ezen az oldalon: %%SITE_NAME%% "
+"Eredményem: %%PERCENTAGE%%%! Kezdd el Te is a tanfolyamot még MA! %"
+"%COURSE_PERMALINK%%"
+
+#: includes/class-sensei-share-your-grade.php:532
+msgid ""
+"Cheer me on as I work to pass the %%POST_NAME%% course, over at %%SITE_NAME%"
+"%! Take the course with me, today! %%COURSE_PERMALINK%%"
+msgstr ""
+"Drukkolj, hogy sikerüljön a tesztem itt: %%POST_NAME%% tanfolyam ezen az "
+"oldalon: %%SITE_NAME%%. Vegyél részt velem a tanfolyamon! %%COURSE_PERMALINK%"
+"%"
+
+#: includes/class-sensei-share-your-grade.php:619,
+#: includes/class-sensei-share-your-grade.php:643
+msgid "passed"
+msgstr "sikeres"
+
+#: includes/class-sensei-share-your-grade.php:621,
+#: includes/class-sensei-share-your-grade.php:646
+msgid "failed"
+msgstr "sikertelen"
+
+#: includes/class-sensei-share-your-grade.php:641
+msgid "completed"
+msgstr ""
