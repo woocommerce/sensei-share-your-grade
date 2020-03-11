@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-<!-- Thanks for contributing to Sensei! Pick a clear title ("Lesson: Show complexity in individual lessons") and proceed. -->
+<!-- Thanks for contributing to Sensei Share Your Grade! Pick a clear title ("Lesson: Show complexity in individual lessons") and proceed. -->
 
 #### Steps to Reproduce
 1. Go to '...'
@@ -21,7 +21,7 @@ assignees: ''
 #### What Happened Instead
 
 
-#### PHP / WordPress / Sensei version
+#### PHP / WordPress / Sensei Share Your Grade / Sensei LMS version
 
 
 #### Browser / OS version
@@ -39,9 +39,6 @@ assignees: ''
 PLEASE NOTE
 - These comments won't show up when you submit the issue.
 - Everything is optional, but try to add as many details as possible.
-
-Contributing docs:
-https://github.com/Automattic/sensei/blob/master/CONTRIBUTING.md
 
 Helpful tips for screenshots:
 https://en.support.wordpress.com/make-a-screenshot/
