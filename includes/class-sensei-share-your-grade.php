@@ -200,14 +200,12 @@ final class Sensei_Share_Your_Grade {
 	 * @return  string
 	 */
 	public function setup_course_data_before_output () {
-		global $woothemes_sensei, $course, $current_user;
+		global $course, $current_user;
 
 		if ( ! is_a( $course, 'WP_Post' ) || ! is_a( $current_user, 'WP_User' ) ) return;
 
 		$course_id = intval( $course->ID );
 		$user_id = intval( $current_user->ID );
-
-		$started_course = WooThemes_Sensei_Utils::user_started_course( $course_id, $user_id );
 
 		$pass_mark = WooThemes_Sensei_Utils::sensei_course_pass_grade( $course_id );
 		$user_grade = WooThemes_Sensei_Utils::sensei_course_user_grade( $course_id, $user_id );
