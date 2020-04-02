@@ -1,4 +1,4 @@
-# Copyright (C) 2019 Sensei Share Your Grade
+# Copyright (C) 2020 Sensei Share Your Grade
 # This file is distributed under the same license as the Sensei Share Your Grade package.
 msgid ""
 msgstr ""
@@ -32,38 +32,38 @@ msgstr ""
 msgid "<strong>Sensei Share Your Grade</strong> requires that the plugin <strong>Sensei</strong> (minimum version: <strong>%1$s</strong>) is installed and activated."
 msgstr ""
 
-#: includes/class-sensei-share-your-grade.php:294
+#: includes/class-sensei-share-your-grade.php:292
 msgid "Share your progress!"
 msgstr ""
 
-#: includes/class-sensei-share-your-grade.php:295
+#: includes/class-sensei-share-your-grade.php:293
 msgid "Go on, get social! Share your progress with your friends and family on social media."
 msgstr ""
 
-#: includes/class-sensei-share-your-grade.php:371
+#: includes/class-sensei-share-your-grade.php:369
 msgid "Tweet your Grade"
 msgstr ""
 
-#: includes/class-sensei-share-your-grade.php:512
+#: includes/class-sensei-share-your-grade.php:510
 msgid "I just %%STATUS%% %%POST_NAME%%, over at %%SITE_NAME%%! Take the course, today! %%COURSE_PERMALINK%%"
 msgstr ""
 
-#: includes/class-sensei-share-your-grade.php:522
+#: includes/class-sensei-share-your-grade.php:520
 msgid "I just %%STATUS%% %%POST_NAME%%, over at %%SITE_NAME%% with %%PERCENTAGE%%%! Take the course, today! %%COURSE_PERMALINK%%"
 msgstr ""
 
-#: includes/class-sensei-share-your-grade.php:532
+#: includes/class-sensei-share-your-grade.php:530
 msgid "Cheer me on as I work to pass the %%POST_NAME%% course, over at %%SITE_NAME%%! Take the course with me, today! %%COURSE_PERMALINK%%"
 msgstr ""
 
-#: includes/class-sensei-share-your-grade.php:619, includes/class-sensei-share-your-grade.php:643
+#: includes/class-sensei-share-your-grade.php:617, includes/class-sensei-share-your-grade.php:641
 msgid "passed"
 msgstr ""
 
-#: includes/class-sensei-share-your-grade.php:621, includes/class-sensei-share-your-grade.php:646
+#: includes/class-sensei-share-your-grade.php:619, includes/class-sensei-share-your-grade.php:644
 msgid "failed"
 msgstr ""
 
-#: includes/class-sensei-share-your-grade.php:641
+#: includes/class-sensei-share-your-grade.php:639
 msgid "completed"
 msgstr ""
