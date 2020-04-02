@@ -1,6 +1,6 @@
 {
   "name": "sensei-share-your-grade",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Let your students strut their stuff (and promote your course) by sharing their progress on social media.",
   "main": "sensei-share-your-grade.php",
   "scripts": {
