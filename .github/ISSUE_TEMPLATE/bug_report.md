@@ -9,28 +9,28 @@ assignees: ''
 
 <!-- Thanks for contributing to Sensei Share Your Grade! Pick a clear title ("Lesson: Show complexity in individual lessons") and proceed. -->
 
-#### Steps to Reproduce
+### Steps to Reproduce
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
 4. See error
 
-#### What I Expected
+### What I Expected
 
 
-#### What Happened Instead
+### What Happened Instead
 
 
-#### PHP / WordPress / Sensei Share Your Grade / Sensei LMS version
+### PHP / WordPress / Sensei Share Your Grade / Sensei LMS version
 
 
-#### Browser / OS version
+### Browser / OS version
 
 
-#### Screenshot / Video
+### Screenshot / Video
 
 
-#### Context / Source
+### Context / Source
 <!-- Optional: share your unique context to help us understand your perspective. -->
 
 
