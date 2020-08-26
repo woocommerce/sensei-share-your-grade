@@ -1,6 +1,6 @@
-*.DS_Store
-*.sass-cache
-*config.codekit
-*.codekit-cache
-build
+.DS_Store
 node_modules
+vendor
+build
+assets/dist
+/*.zip

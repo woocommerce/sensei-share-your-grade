@@ -1,35 +1,40 @@
 {
   "name": "sensei-share-your-grade",
   "version": "2.0.1",
-  "description": "Let your students strut their stuff (and promote your course) by sharing their progress on social media.",
-  "main": "sensei-share-your-grade.php",
-  "scripts": {
-    "dev": "NODE_ENV=dev gulp package",
-    "prod": "NODE_ENV=prod gulp package",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "description": "Sensei LMS Share Your Grade",
+  "author": "Automattic",
+  "license": "GPL-2.0-or-later",
+  "keywords": [
+    "wordpress-plugin"
+  ],
+  "homepage": "https://woocommerce.com/products/sensei-share-your-grade/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/woocommerce/sensei-share-your-grade.git"
   },
-  "keywords": [
-    "sensei",
-    "twitter",
-    "facebook",
-    "linkedin",
-    "social media"
-  ],
-  "author": "Automattic",
-  "license": "GPL-2.0+",
   "bugs": {
     "url": "https://github.com/woocommerce/sensei-share-your-grade/issues"
   },
-  "homepage": "https://github.com/woocommerce/sensei-share-your-grade#readme",
   "devDependencies": {
-    "del": "5.1.0",
-    "gulp": "4.0.2",
-    "gulp-sass": "4.1.0",
-    "gulp-wp-pot": "2.4.3",
-    "gulp-zip": "5.0.2"
+    "@wordpress/scripts": "12.1.1"
+  },
+  "scripts": {
+    "build": "npm run build:assets && npm run archive",
+    "build:assets": "wp-scripts build",
+    "archive": "composer archive --file=$npm_package_name --format=zip",
+    "postarchive": "rm -rf $npm_package_name && unzip $npm_package_name.zip -d $npm_package_name && rm $npm_package_name.zip && zip -r $npm_package_name.zip $npm_package_name && rm -rf $npm_package_name",
+    "check-engines": "wp-scripts check-engines",
+    "check-licenses": "wp-scripts check-licenses",
+    "format:js": "wp-scripts format-js",
+    "lint:css": "wp-scripts lint-style assets/css",
+    "lint:js": "wp-scripts lint-js assets/js",
+    "lint:pkg-json": "wp-scripts lint-pkg-json",
+    "packages-update": "wp-scripts packages-update",
+    "start": "wp-scripts start",
+    "i18n:build": "npm run i18n:php",
+    "i18n:php": "wp i18n make-pot --exclude=lib,vendor,node_modules --skip-js --headers='{\"Last-Translator\":null,\"Language-Team\":null,\"Report-Msgid-Bugs-To\":\"https://wordpress.org/support/plugin/sensei-share-your-grade\"}' . languages/sensei-share-your-grade.pot"
+  },
+  "config": {
+    "wp_org_slug": "sensei-share-your-grade"
   }
 }
