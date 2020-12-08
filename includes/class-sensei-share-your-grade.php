@@ -472,7 +472,7 @@ final class Sensei_Share_Your_Grade {
 		global $post;
 		if( $this->is_lesson() ) {
 			// If lesson is not passed, leave the message blank so nothing will be output
-			if ( true !== $this->_lesson_data['has_passed'] ) {
+			if ( ! isset( $this->_lesson_data['has_passed'] ) || true !== $this->_lesson_data['has_passed'] ) {
 				$message = '';
 				return $message;
 			}
@@ -548,7 +548,7 @@ final class Sensei_Share_Your_Grade {
 	 */
 	private function _get_status () {
 		$template = 'failed';
-		if ( true == $this->_course_data['has_passed'] ) {
+		if ( isset( $this->_course_data['has_passed'] ) && true == $this->_course_data['has_passed'] ) {
 			$template = 'passed';
 		}
 		elseif ( true == $this->_lesson_data['has_passed'] && 0 < intval($this->_lesson_data['user_grade']) ) {
