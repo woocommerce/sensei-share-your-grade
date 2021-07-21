@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Sensei Share Your Grade
  * Plugin URI: https://woocommerce.com/products/sensei-share-your-grade/
- * Description: Let your students strut their stuff (and promote your course) by sharing their progress on social media.
+ * Description: Let your students strut their stuff (and promote your course) by sharing their progress on social media. This plugin is no longer maintained.
  * Author: Automattic
  * Version: 2.0.1
  * Author URI: https://automattic.com/
