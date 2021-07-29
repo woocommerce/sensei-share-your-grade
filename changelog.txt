@@ -1,6 +1,6 @@
 *** Sensei Share Your Grade Changelog ***
 
-2021.07.26 - version 2.0.2
+2021.07.29 - version 2.0.2
 * Adds notice to warn users that this plugin is no longer maintained.
 
 2020.04.02 - version 2.0.1

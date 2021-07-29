@@ -172,7 +172,7 @@ final class Sensei_Share_Your_Grade {
 		);
 
 		echo esc_html__( 'This plugin is no longer being maintained.', 'sensei-share-your-grade' );
-		echo ' <a href="https://senseilms.com/2021/07/21/retiring-two-sensei-lms-extensions/" rel="noreferrer noopener">' . esc_html__( 'More information', 'sensei-share-your-grade' ) . '</a>';
+		echo ' <a href="https://senseilms.com/2021/07/29/retiring-two-sensei-lms-extensions/" rel="noreferrer noopener">' . esc_html__( 'More information', 'sensei-share-your-grade' ) . '</a>';
 
 		echo '</p></div></td></tr>';
 
