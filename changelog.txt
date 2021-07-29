@@ -1,5 +1,8 @@
 *** Sensei Share Your Grade Changelog ***
 
+2021.07.29 - version 2.0.2
+* Adds notice to warn users that this plugin is no longer maintained.
+
 2020.04.02 - version 2.0.1
 * New: Add Hungarian translation - #36
 * Tweak: Remove unnecessary call to `user_started_course` - #41
